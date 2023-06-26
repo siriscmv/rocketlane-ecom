@@ -13,10 +13,9 @@ export interface CardProps {
 
 export default function Card(props: CardProps) {
   const { state, actions } = useContext(Context)!;
+  const qty = state.cart.find((c) => c.id === props.id)?.quantity ?? null;
 
   const QuantityController = () => {
-    const qty = state.cart.find((c) => c.id === props.id)!.quantity;
-
     return (
       <div className={styles.qty}>
         <button
@@ -73,7 +72,7 @@ export default function Card(props: CardProps) {
       <div className={styles.content}>
         <div className={styles.header}>
           <span className={styles.title}>{props.title}</span>
-          <span>Price: {props.price}₹</span>
+          <span>Price: ₹{(props.price * (qty ?? 1)).toFixed(2)}</span>
         </div>
         <span className={styles.description}>{props.description}</span>
         {state.cart.some((c) => c.id === props.id) ? (
