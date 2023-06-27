@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 export default function Cart() {
   const { state, actions } = useContext(Context)!;
   useEffect(() => {
-    actions.setCart(cart);
+    actions.getAllCartItems(cart);
   }, []);
 
   return (

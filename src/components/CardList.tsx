@@ -2,13 +2,12 @@ import styles from "./Page.module.css";
 import Card from "./Card";
 import { Context } from "../utils/Context";
 import { useContext, useEffect } from "react";
-import data from "../utils/mockData";
 import { Link } from "react-router-dom";
 
 export default function CardList() {
   const { state, actions } = useContext(Context)!;
   useEffect(() => {
-    actions.setItems(data);
+    actions.getAllItems();
   }, []);
 
   return (

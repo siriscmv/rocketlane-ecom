@@ -82,10 +82,10 @@ type SnakeToCamelCase<S extends string> = S extends `${infer T}_${infer U}`
 export const backendActions = [
   "getAllItems",
   "getAllCartItems",
-  "AddItemToCart",
-  "IncQtyCartItem",
-  "DecQtyCartItem",
-  "RemoveItemFromCart",
+  "addItemToCart",
+  "incQtyCartItem",
+  "decQtyCartItem",
+  "removeItemFromCart",
 ] as const;
 
 export type Actions = {
@@ -112,22 +112,22 @@ export const Provider = (props: { children: ReactNode }) => {
         if (body) dispatch({ type: "SET_CART", payload: body });
       });
     },
-    AddItemToCart: (payload: Payload) => {
+    addItemToCart: (payload: Payload) => {
       fetch(`/cart/add/${payload}`).then((body) => {
         if (body) dispatch({ type: "ADD_TO_CART", payload });
       });
     },
-    IncQtyCartItem: (payload: Payload) => {
+    incQtyCartItem: (payload: Payload) => {
       fetch(`/cart/increase/${payload}`).then((body) => {
         if (body) dispatch({ type: "INC_ITEM", payload });
       });
     },
-    DecQtyCartItem: (payload: Payload) => {
+    decQtyCartItem: (payload: Payload) => {
       fetch(`/cart/decrease/${payload}`).then((body) => {
         if (body) dispatch({ type: "DEC_ITEM", payload });
       });
     },
-    RemoveItemFromCart: (payload: Payload) => {
+    removeItemFromCart: (payload: Payload) => {
       fetch(`/cart/remove/${payload}`).then((body) => {
         if (body) dispatch({ type: "REMOVE_FROM_CART", payload });
       });
