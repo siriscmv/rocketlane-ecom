@@ -114,7 +114,8 @@ export const Context = createContext<{
 
 export const Provider = (props: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
-
+  //TODO: Show loading states for action buttons / cards, etc.
+  //TODO: Impl optimisitic updates
   const actions: Actions = {
     getAllItems: () => {
       fetch("/product-item").then((body) => {
@@ -132,6 +133,7 @@ export const Provider = (props: { children: ReactNode }) => {
       });
     },
     incQtyCartItem: (id: Payload) => {
+      //TODO Change inc and dec to a single action
       fetch(`/cart-item/increase/${id}`, "PATCH").then((body) => {
         if (body) dispatch({ type: "INC_ITEM", payload: id });
       });

@@ -75,7 +75,7 @@ export default function Card(props: CardProps) {
             <b>{props.title}</b>
           </span>
           <span>
-            Price: <b>₹{(props.price * (qty ?? 1)).toFixed(2)}</b>
+            Price: <b>₹{props.price.toFixed(2)}</b>
           </span>
         </div>
         <span className={styles.description}>{props.description}</span>

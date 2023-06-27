@@ -4,7 +4,7 @@ import { Context } from "../utils/Context";
 import { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-export default function CardList() {
+export default function Shop() {
   const { state, actions } = useContext(Context)!;
   useEffect(() => {
     actions.getAllItems();
