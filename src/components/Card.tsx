@@ -20,7 +20,7 @@ export default function Card(props: CardProps) {
       <div className={styles.qty}>
         <button
           onClick={() => {
-            actions.incQtyCartItem(props.id);
+            actions.changeQtyCartItem({ id: props.id, quantity: qty! + 1 });
           }}
           className={styles.success}
         >
@@ -32,7 +32,8 @@ export default function Card(props: CardProps) {
             if (qty === 1) {
               const res = window.confirm("Remove item from cart?");
               if (res) actions.removeItemFromCart(props.id);
-            } else actions.decQtyCartItem(props.id);
+            } else
+              actions.changeQtyCartItem({ id: props.id, quantity: qty! - 1 });
           }}
           className={styles.danger}
         >

@@ -6,8 +6,7 @@ export type ActionType =
   | "SET_ITEMS"
   | "SET_CART"
   | "ADD_TO_CART"
-  | "INC_ITEM"
-  | "DEC_ITEM"
+  | "CHANGE_QTY"
   | "REMOVE_FROM_CART"
   | "INITIAL_SYNC";
 
@@ -27,11 +26,12 @@ type Payload =
   | number
   | Item[]
   | Cart[]
-  | { cart: Cart[]; items: Item[] };
+  | { cart: Cart[]; items: Item[] }
+  | { id: number; quantity: number };
 
 export interface Action {
   type: ActionType;
-  payload: Payload;
+  payload?: Payload;
 }
 
 export const initialState: State = {
@@ -61,21 +61,17 @@ export const reducer = (state: State, action: Action): State => {
         ...state,
         cart: [...state.cart, { id: action.payload as number, quantity: 1 }],
       };
-    case "INC_ITEM": //Single ID
+    case "CHANGE_QTY": //{id, quantity}
       const cartItemsInc = [...state.cart];
-      cartItemsInc.find((i) => i.id === action.payload)!.quantity++;
+      cartItemsInc.find(
+        (i) => i.id === (action.payload as { id: number; quantity: number }).id
+      )!.quantity = (
+        action.payload as { id: number; quantity: number }
+      ).quantity;
 
       return {
         ...state,
         cart: cartItemsInc,
-      };
-    case "DEC_ITEM": //Single ID
-      const cartItemsDec = [...state.cart];
-      cartItemsDec.find((i) => i.id === action.payload)!.quantity--;
-
-      return {
-        ...state,
-        cart: cartItemsDec,
       };
     case "REMOVE_FROM_CART": //Single ID
       return {
@@ -96,8 +92,7 @@ export const backendActions = [
   "getAllItems",
   "getAllCartItems",
   "addItemToCart",
-  "incQtyCartItem",
-  "decQtyCartItem",
+  "changeQtyCartItem",
   "removeItemFromCart",
   "syncWithBackend",
 ] as const;
@@ -132,15 +127,20 @@ export const Provider = (props: { children: ReactNode }) => {
         if (body) dispatch({ type: "ADD_TO_CART", payload: id });
       });
     },
-    incQtyCartItem: (id: Payload) => {
+    changeQtyCartItem: (payload: Payload) => {
       //TODO Change inc and dec to a single action
-      fetch(`/cart-item/increase/${id}`, "PATCH").then((body) => {
-        if (body) dispatch({ type: "INC_ITEM", payload: id });
-      });
-    },
-    decQtyCartItem: (id: Payload) => {
-      fetch(`/cart-item/decrease/${id}`, "PATCH").then((body) => {
-        if (body) dispatch({ type: "DEC_ITEM", payload: id });
+      fetch(
+        `/cart-item/${(payload as { id: number; quantity: number }).id}`,
+        "PATCH",
+        {
+          quantity: (payload as { id: number; quantity: number }).quantity,
+        }
+      ).then((body) => {
+        if (body)
+          dispatch({
+            type: "CHANGE_QTY",
+            payload: payload as { id: number; quantity: number },
+          });
       });
     },
     removeItemFromCart: (id: Payload) => {
