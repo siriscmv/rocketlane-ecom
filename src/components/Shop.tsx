@@ -1,6 +1,6 @@
 import styles from "./Page.module.css";
 import Card from "./Card";
-import { Context } from "../utils/Context";
+import { Context } from "./Context";
 import { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 

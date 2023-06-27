@@ -1,6 +1,6 @@
 import { Dispatch, ReactNode, createContext, useReducer } from "react";
-import { CardProps as Item } from "../components/Card";
-import fetch from "./fetch";
+import { CardProps as Item } from "./Card";
+import fetch from "../utils/fetch";
 
 export type ActionType =
   | "SET_ITEMS"

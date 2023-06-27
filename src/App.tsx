@@ -5,7 +5,7 @@ import Home from "./components/Home";
 import Error from "./components/Error";
 import Invoice from "./components/Invoice";
 import SyncWrapper from "./components/Sync";
-import { Provider } from "./utils/Context";
+import { Provider } from "./components/Context";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Nav from "./components/Nav";
 

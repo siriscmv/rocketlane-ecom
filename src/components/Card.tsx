@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import styles from "./Card.module.css";
-import { Context } from "../utils/Context";
+import { Context } from "./Context";
 
 export interface CardProps {
   id: number;

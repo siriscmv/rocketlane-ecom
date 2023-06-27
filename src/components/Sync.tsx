@@ -1,5 +1,5 @@
 import { ReactNode, useContext, useEffect } from "react";
-import { Context } from "../utils/Context";
+import { Context } from "./Context";
 
 export default function Sync(props: { children: ReactNode }) {
   const { state, actions } = useContext(Context)!;
