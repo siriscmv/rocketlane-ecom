@@ -1,4 +1,4 @@
-const BASE_API_URL = "http://localhost:3000";
+const BASE_API_URL = "http://localhost:3000/api/v1";
 
 export default async function fetch(
   path: string,

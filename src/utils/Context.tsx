@@ -112,37 +112,37 @@ export const Provider = (props: { children: ReactNode }) => {
 
   const actions: Actions = {
     getAllItems: () => {
-      fetch("/all-items").then((body) => {
+      fetch("/product-item").then((body) => {
         if (body) dispatch({ type: "SET_ITEMS", payload: body });
       });
     },
     getAllCartItems: () => {
-      fetch("/all-cart-items").then((body) => {
+      fetch("/cart-item").then((body) => {
         if (body) dispatch({ type: "SET_CART", payload: body });
       });
     },
-    addItemToCart: (payload: Payload) => {
-      fetch(`/cart/add/${payload}`).then((body) => {
-        if (body) dispatch({ type: "ADD_TO_CART", payload });
+    addItemToCart: (id: Payload) => {
+      fetch(`/cart-item/${id}`, "POST").then((body) => {
+        if (body) dispatch({ type: "ADD_TO_CART", payload: id });
       });
     },
-    incQtyCartItem: (payload: Payload) => {
-      fetch(`/cart/increase/${payload}`).then((body) => {
-        if (body) dispatch({ type: "INC_ITEM", payload });
+    incQtyCartItem: (id: Payload) => {
+      fetch(`/cart-item/increase/${id}`, "PATCH").then((body) => {
+        if (body) dispatch({ type: "INC_ITEM", payload: id });
       });
     },
-    decQtyCartItem: (payload: Payload) => {
-      fetch(`/cart/decrease/${payload}`).then((body) => {
-        if (body) dispatch({ type: "DEC_ITEM", payload });
+    decQtyCartItem: (id: Payload) => {
+      fetch(`/cart-item/decrease/${id}`, "PATCH").then((body) => {
+        if (body) dispatch({ type: "DEC_ITEM", payload: id });
       });
     },
-    removeItemFromCart: (payload: Payload) => {
-      fetch(`/cart/remove/${payload}`).then((body) => {
-        if (body) dispatch({ type: "REMOVE_FROM_CART", payload });
+    removeItemFromCart: (id: Payload) => {
+      fetch(`/cart-item/${id}`, "DELETE").then((body) => {
+        if (body) dispatch({ type: "REMOVE_FROM_CART", payload: id });
       });
     },
     syncWithBackend: () => {
-      Promise.all([fetch("/all-items"), fetch(`/all-cart-items`)]).then(
+      Promise.all([fetch("/product-item"), fetch(`/cart-item`)]).then(
         (result) => {
           if (result)
             dispatch({
