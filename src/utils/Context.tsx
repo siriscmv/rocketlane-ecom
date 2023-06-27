@@ -8,7 +8,8 @@ export type ActionType =
   | "ADD_TO_CART"
   | "INC_ITEM"
   | "DEC_ITEM"
-  | "REMOVE_FROM_CART";
+  | "REMOVE_FROM_CART"
+  | "INITIAL_SYNC";
 
 export interface Cart {
   id: number;
@@ -18,9 +19,15 @@ export interface Cart {
 export interface State {
   items: Item[];
   cart: Cart[];
+  initialSynced: boolean;
 }
 
-type Payload = undefined | number | Item[] | Cart[];
+type Payload =
+  | undefined
+  | number
+  | Item[]
+  | Cart[]
+  | { cart: Cart[]; items: Item[] };
 
 export interface Action {
   type: ActionType;
@@ -30,6 +37,7 @@ export interface Action {
 export const initialState: State = {
   items: [],
   cart: [],
+  initialSynced: false,
 };
 
 export const reducer = (state: State, action: Action): State => {
@@ -70,14 +78,14 @@ export const reducer = (state: State, action: Action): State => {
         ...state,
         cart: state.cart.filter((i) => i.id !== action.payload),
       };
+    case "INITIAL_SYNC": // Both cart and items
+      return {
+        ...state,
+        cart: (action.payload as { cart: Cart[]; items: Item[] }).cart,
+        items: (action.payload as { cart: Cart[]; items: Item[] }).items,
+      };
   }
-
-  return state;
 };
-
-type SnakeToCamelCase<S extends string> = S extends `${infer T}_${infer U}`
-  ? `${Lowercase<T>}${Capitalize<SnakeToCamelCase<U>>}`
-  : Lowercase<S>;
 
 export const backendActions = [
   "getAllItems",
@@ -86,6 +94,7 @@ export const backendActions = [
   "incQtyCartItem",
   "decQtyCartItem",
   "removeItemFromCart",
+  "syncWithBackend",
 ] as const;
 
 export type Actions = {
@@ -131,6 +140,17 @@ export const Provider = (props: { children: ReactNode }) => {
       fetch(`/cart/remove/${payload}`).then((body) => {
         if (body) dispatch({ type: "REMOVE_FROM_CART", payload });
       });
+    },
+    syncWithBackend: () => {
+      Promise.all([fetch("/all-items"), fetch(`/all-cart-items`)]).then(
+        (result) => {
+          if (result)
+            dispatch({
+              type: "INITIAL_SYNC",
+              payload: { items: result[0], cart: result[1] },
+            });
+        }
+      );
     },
   };
 
