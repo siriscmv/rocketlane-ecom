@@ -1,5 +1,6 @@
 import { Dispatch, ReactNode, createContext, useReducer } from "react";
 import { CardProps as Item } from "../components/Card";
+import fetch from "./fetch";
 
 export type ActionType =
   | "SET_ITEMS"
@@ -19,7 +20,7 @@ export interface State {
   cart: Cart[];
 }
 
-type Payload = number | Item[] | Cart[];
+type Payload = undefined | number | Item[] | Cart[];
 
 export interface Action {
   type: ActionType;
@@ -78,8 +79,17 @@ type SnakeToCamelCase<S extends string> = S extends `${infer T}_${infer U}`
   ? `${Lowercase<T>}${Capitalize<SnakeToCamelCase<U>>}`
   : Lowercase<S>;
 
+export const backendActions = [
+  "getAllItems",
+  "getAllCartItems",
+  "AddItemToCart",
+  "IncQtyCartItem",
+  "DecQtyCartItem",
+  "RemoveItemFromCart",
+] as const;
+
 export type Actions = {
-  [K in ActionType as `${SnakeToCamelCase<K>}`]: (payload: Payload) => void;
+  [K in (typeof backendActions)[number]]: (payload?: Payload) => void;
 };
 
 export const Context = createContext<{
@@ -92,23 +102,35 @@ export const Provider = (props: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const actions: Actions = {
-    setItems: (payload: Payload) => {
-      dispatch({ type: "SET_ITEMS", payload });
+    getAllItems: () => {
+      fetch("/all-items").then((body) => {
+        if (body) dispatch({ type: "SET_ITEMS", payload: body });
+      });
     },
-    setCart: (payload: Payload) => {
-      dispatch({ type: "SET_CART", payload });
+    getAllCartItems: () => {
+      fetch("/all-cart-items").then((body) => {
+        if (body) dispatch({ type: "SET_CART", payload: body });
+      });
     },
-    addToCart: (payload: Payload) => {
-      dispatch({ type: "ADD_TO_CART", payload });
+    AddItemToCart: (payload: Payload) => {
+      fetch(`/cart/add/${payload}`).then((body) => {
+        if (body) dispatch({ type: "ADD_TO_CART", payload });
+      });
     },
-    incItem: (payload: Payload) => {
-      dispatch({ type: "INC_ITEM", payload });
+    IncQtyCartItem: (payload: Payload) => {
+      fetch(`/cart/increase/${payload}`).then((body) => {
+        if (body) dispatch({ type: "INC_ITEM", payload });
+      });
     },
-    decItem: (payload: Payload) => {
-      dispatch({ type: "DEC_ITEM", payload });
+    DecQtyCartItem: (payload: Payload) => {
+      fetch(`/cart/decrease/${payload}`).then((body) => {
+        if (body) dispatch({ type: "DEC_ITEM", payload });
+      });
     },
-    removeFromCart: (payload: Payload) => {
-      dispatch({ type: "REMOVE_FROM_CART", payload });
+    RemoveItemFromCart: (payload: Payload) => {
+      fetch(`/cart/remove/${payload}`).then((body) => {
+        if (body) dispatch({ type: "REMOVE_FROM_CART", payload });
+      });
     },
   };
 
