@@ -118,12 +118,12 @@ export const Provider = (props: { children: ReactNode }) => {
   //TODO: Impl optimisitic updates
   const actions: Actions = {
     getAllItems: () => {
-      fetch("/product-item").then((body) => {
+      fetch("/product-items").then((body) => {
         if (body) dispatch({ type: "SET_ITEMS", payload: body });
       });
     },
     getAllCartItems: () => {
-      fetch("/cart-item").then((body) => {
+      fetch("/cart-items").then((body) => {
         if (body) dispatch({ type: "SET_CART", payload: body });
       });
     },
