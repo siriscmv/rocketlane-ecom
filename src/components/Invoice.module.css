@@ -1,0 +1,27 @@
+.table {
+  width: 75vw;
+  border-collapse: collapse;
+  border: 3px dashed #121212;
+}
+
+th,
+td {
+  padding: 12px 15px;
+  text-align: left;
+  border: 3px dashed #121212;
+}
+
+th {
+  text-align: center;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+  align-content: center;
+  margin: auto;
+  place-content: center;
+  place-items: center;
+}
