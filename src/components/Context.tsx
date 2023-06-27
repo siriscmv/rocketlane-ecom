@@ -128,7 +128,6 @@ export const Provider = (props: { children: ReactNode }) => {
       });
     },
     changeQtyCartItem: (payload: Payload) => {
-      //TODO Change inc and dec to a single action
       fetch(
         `/cart-item/${(payload as { id: number; quantity: number }).id}`,
         "PATCH",
