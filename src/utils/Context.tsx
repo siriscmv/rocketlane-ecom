@@ -51,6 +51,10 @@ export const reducer = (state: State, action: Action): State => {
       return {
         ...state,
         cart: action.payload as Cart[],
+        items:
+          state.items.length === 0
+            ? (action.payload as any[]).map((c) => c.productItem)
+            : state.items,
       };
     case "ADD_TO_CART": //Single ID
       return {
