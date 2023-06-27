@@ -7,5 +7,5 @@ export default function Sync(props: { children: ReactNode }) {
     if (!state.initialSynced) actions.syncWithBackend();
   }, []);
 
-  return <div>{props.children}</div>;
+  return <>{props.children}</>;
 }

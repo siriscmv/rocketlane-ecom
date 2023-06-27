@@ -3,14 +3,14 @@ import CardList from "./components/CardList";
 import Cart from "./components/Cart";
 import Home from "./components/Home";
 import Error from "./components/Error";
-import Sync from "./components/Sync";
+import SyncWrapper from "./components/Sync";
 import { Provider } from "./utils/Context";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
   return (
     <Provider>
-      <Sync>
+      <SyncWrapper>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home />} />
@@ -19,7 +19,7 @@ function App() {
             <Route path="/error" element={<Error />} />
           </Routes>
         </BrowserRouter>
-      </Sync>
+      </SyncWrapper>
     </Provider>
   );
 }

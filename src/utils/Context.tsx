@@ -83,6 +83,7 @@ export const reducer = (state: State, action: Action): State => {
         ...state,
         cart: (action.payload as { cart: Cart[]; items: Item[] }).cart,
         items: (action.payload as { cart: Cart[]; items: Item[] }).items,
+        initialSynced: true,
       };
   }
 };
