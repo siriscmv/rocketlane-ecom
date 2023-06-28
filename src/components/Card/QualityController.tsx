@@ -1,13 +1,14 @@
 import { useContext } from "react";
-import { CardProps, promptAndRemoveItem } from ".";
+import { promptAndRemoveItem } from ".";
 import Spinner from "../../icons/Spinner";
 import { Context } from "../../data/Context";
 import styles from "./card.module.css";
+import { Item } from "../../data/interfaces";
 
 export interface QuantityControllerProps {
   shouldBlockButton: boolean;
-  id: CardProps["id"];
-  title: CardProps["title"];
+  id: Item["id"];
+  title: Item["title"];
   quantity: number;
 }
 

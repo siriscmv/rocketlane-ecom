@@ -1,6 +1,6 @@
 import { Dispatch, ReactNode, createContext, useReducer } from "react";
-import { CardProps as Item } from "../components/Card";
 import fetch from "../utils/fetch";
+import { Cart, Item } from "./interfaces";
 
 export type ActionType =
   | "SET_ITEMS"
@@ -12,12 +12,6 @@ export type ActionType =
   | "FETCH_START"
   | "FETCH_DONE"
   | "FETCH_ERROR";
-
-export interface Cart {
-  id: number;
-  quantity: number;
-  productItem: Item;
-}
 
 type BackendAction = (typeof BackendActions)[keyof typeof BackendActions];
 

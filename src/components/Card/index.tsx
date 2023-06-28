@@ -4,13 +4,9 @@ import { Actions, BackendActions, Context } from "../../data/Context";
 import Spinner from "../../icons/Spinner";
 import { AddButton } from "./AddButton";
 import { QuantityController } from "./QualityController";
+import { Item } from "../../data/interfaces";
 
-export interface CardProps {
-  id: number;
-  title: string;
-  description: string;
-  image: string;
-  price: number;
+export interface CardProps extends Item {
   showRemoveButton?: boolean;
 }
 
