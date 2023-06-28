@@ -1,6 +1,6 @@
 import { ReactNode, useReducer } from "react";
 import { initialState, Actions, BackendActions, Context, Payload } from ".";
-import { Item } from "../interfaces";
+import { Item, Cart } from "../interfaces";
 import fetch from "../../utils/fetch";
 import reducer from "./reducer";
 
@@ -9,43 +9,39 @@ export default function Provider(props: { children: ReactNode }) {
 
   const actions: Actions = {
     getAllItems: async () => {
-      const payload = await fetch("/product-items");
+      const payload: Item[] | null = await fetch("/product-items");
       if (payload) dispatch({ type: "SET_ITEMS", payload });
     },
     getAllCartItems: async () => {
-      const payload = await fetch("/cart-items");
+      const payload: Cart[] | null = await fetch("/cart-items");
       if (payload) dispatch({ type: "SET_CART", payload });
     },
-    addItemToCart: async (payload: Payload) => {
+    addItemToCart: async (payload: Item) => {
       dispatch({ type: "FETCH_START", payload: BackendActions.AddItemToCart });
-      const done = await fetch(`/cart-item/${(payload as Item).id}`, "POST");
+      const done = await fetch(`/cart-item/${payload.id}`, "POST");
 
       if (done) dispatch({ type: "ADD_TO_CART", payload });
       dispatch({ type: "FETCH_DONE", payload: BackendActions.AddItemToCart });
     },
-    changeQtyCartItem: async (payload: Payload) => {
+    changeQtyCartItem: async (payload: { id: number; quantity: number }) => {
       dispatch({
         type: "FETCH_START",
         payload: BackendActions.ChangeQtyCartItem,
       });
-      const done = await fetch(
-        `/cart-item/${(payload as { id: number; quantity: number }).id}`,
-        "PATCH",
-        {
-          quantity: (payload as { id: number; quantity: number }).quantity,
-        }
-      );
+      const done = await fetch(`/cart-item/${payload.id}`, "PATCH", {
+        quantity: payload.quantity,
+      });
       if (done)
         dispatch({
           type: "CHANGE_QTY",
-          payload: payload as { id: number; quantity: number },
+          payload,
         });
       dispatch({
         type: "FETCH_DONE",
         payload: BackendActions.ChangeQtyCartItem,
       });
     },
-    removeItemFromCart: async (id: Payload) => {
+    removeItemFromCart: async (id: number) => {
       dispatch({
         type: "FETCH_START",
         payload: BackendActions.RemoveItemFromCart,

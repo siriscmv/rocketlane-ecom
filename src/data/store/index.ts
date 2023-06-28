@@ -1,4 +1,4 @@
-import { Dispatch, ReactNode, createContext } from "react";
+import { Dispatch, createContext } from "react";
 import { Cart, Item } from "../interfaces";
 
 export type ActionType =
@@ -22,15 +22,7 @@ export interface State {
   fetching: BackendAction[];
 }
 
-export type Payload =
-  | undefined
-  | number
-  | string
-  | Item[]
-  | Item
-  | Cart[]
-  | { cart: Cart[]; items: Item[] }
-  | { id: number; quantity: number };
+export type Payload = any; //Will be narrowed down in actions inside Provider.tsx
 
 export interface Action {
   type: ActionType;
