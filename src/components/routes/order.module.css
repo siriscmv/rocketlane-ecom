@@ -25,3 +25,18 @@ th {
   place-content: center;
   place-items: center;
 }
+
+.form {
+  display: flex;
+  flex-direction: column;
+
+  border: 4px solid #121212;
+  border-radius: 6px;
+}
+
+.form > input {
+  margin: 10px;
+  padding: 10px;
+  border: 2px solid #121212;
+  border-radius: 6px;
+}

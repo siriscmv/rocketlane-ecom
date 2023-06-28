@@ -1,5 +1,5 @@
 import styles from "./page.module.css";
-import invoiceStyles from "./order.module.css";
+import orderStyles from "./order.module.css";
 import { Context } from "../../data/store";
 import { useContext } from "react";
 
@@ -13,8 +13,8 @@ export default function Order() {
 
   return (
     <div className={styles.container}>
-      <div className={invoiceStyles.main}>
-        <table className={invoiceStyles.table}>
+      <div className={orderStyles.main}>
+        <table className={orderStyles.table}>
           <thead>
             <tr>
               <th>ID</th>
@@ -43,6 +43,17 @@ export default function Order() {
           </tbody>
         </table>
         <h3>Total amount: ₹{total}</h3>
+        {(state.cart?.length ?? -1) > 0 && (
+          <form className={orderStyles.form}>
+            <input type="text" placeholder="Name" />
+            <br />
+            <input type="text" placeholder="Address" />
+            <br />
+            <input type="text" placeholder="Phone" />
+            <br />
+            <input type="submit" value="Place order" />
+          </form>
+        )}
       </div>
     </div>
   );
