@@ -11,7 +11,6 @@ const ROUTES = {
   "/invoice": "Your Invoice",
   "/error": "Error",
 };
-//TODO: Cart icon in navbar should show number of items
 
 export default function Nav() {
   const location = useLocation();
