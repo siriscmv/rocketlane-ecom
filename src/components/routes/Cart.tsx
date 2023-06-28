@@ -1,6 +1,6 @@
 import styles from "./page.module.css";
 import Card from "../Card";
-import { Context } from "../../data/Context";
+import { Context } from "../../data/store";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import RightChevrons from "../../icons/RightChevrons";

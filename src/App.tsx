@@ -3,7 +3,7 @@ import Shop from "./components/routes/Shop";
 import Cart from "./components/routes/Cart";
 import Error from "./components/routes/Error";
 import Invoice from "./components/routes/Invoice";
-import { Provider } from "./data/Context";
+import Provider from "./data/store/Provider";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Nav from "./components/Nav";
 

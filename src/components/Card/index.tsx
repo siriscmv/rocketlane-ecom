@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import styles from "./card.module.css";
-import { Actions, BackendActions, Context } from "../../data/Context";
+import { Actions, BackendActions, Context } from "../../data/store";
 import Spinner from "../../icons/Spinner";
 import { AddButton } from "./AddButton";
 import { QuantityController } from "./QualityController";

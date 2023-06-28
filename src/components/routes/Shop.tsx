@@ -1,5 +1,5 @@
 import styles from "./page.module.css";
-import { Context } from "../../data/Context";
+import { Context } from "../../data/store";
 import { useContext } from "react";
 import Card from "../Card";
 

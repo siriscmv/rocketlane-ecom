@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import styles from "./routes/page.module.css";
 import { useContext, useEffect } from "react";
-import { Context } from "../data/Context";
+import { Context } from "../data/store";
 import navStyles from "./nav.module.css";
 import CartIcon from "../icons/Cart";
 import Logo from "../icons/Logo";

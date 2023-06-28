@@ -1,6 +1,6 @@
 import styles from "./page.module.css";
 import invoiceStyles from "./invoice.module.css";
-import { Context } from "../../data/Context";
+import { Context } from "../../data/store";
 import { useContext } from "react";
 
 export default function Invoice() {

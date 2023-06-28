@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { promptAndRemoveItem } from ".";
 import Spinner from "../../icons/Spinner";
-import { Context } from "../../data/Context";
+import { Context } from "../../data/store";
 import styles from "./card.module.css";
 import { Item } from "../../data/interfaces";
 
