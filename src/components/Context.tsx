@@ -145,7 +145,7 @@ export const Context = createContext<{
 
 export const Provider = (props: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  //TODO: Impl optimisitic updates
+
   const actions: Actions = {
     getAllItems: () => {
       fetch("/product-items").then((body) => {
