@@ -1,9 +1,9 @@
 import styles from "./page.module.css";
-import invoiceStyles from "./invoice.module.css";
+import invoiceStyles from "./order.module.css";
 import { Context } from "../../data/store";
 import { useContext } from "react";
 
-export default function Invoice() {
+export default function Order() {
   const { state } = useContext(Context)!;
 
   const total =
