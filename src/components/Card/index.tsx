@@ -1,7 +1,9 @@
 import { useContext } from "react";
 import styles from "./card.module.css";
-import { Actions, BackendActions, Context } from "./Context";
-import Spinner from "../icons/Spinner";
+import { Actions, BackendActions, Context } from "../Context";
+import Spinner from "../../icons/Spinner";
+import { AddButton } from "./AddButton";
+import { QuantityController } from "./QualityController";
 
 export interface CardProps {
   id: number;
@@ -12,75 +14,12 @@ export interface CardProps {
   showRemoveButton?: boolean;
 }
 
-function promptAndRemoveItem(
+export function promptAndRemoveItem(
   item: { id: number; title: string },
   removeItemFromCart: Actions["removeItemFromCart"]
 ) {
   const shoudlRemove = window.confirm(`Remove ${item.title} from cart?`);
   if (shoudlRemove) removeItemFromCart(item.id);
-}
-
-export interface QuantityControllerProps {
-  shouldBlockButton: boolean;
-  id: CardProps["id"];
-  title: CardProps["title"];
-  quantity: number;
-}
-
-export function QuantityController({
-  shouldBlockButton,
-  id,
-  title,
-  quantity,
-}: QuantityControllerProps) {
-  const { actions } = useContext(Context)!;
-
-  return (
-    <div className={styles.qty}>
-      <button
-        onClick={() => {
-          actions.changeQtyCartItem({ id, quantity: quantity + 1 });
-        }}
-        disabled={shouldBlockButton}
-        className={shouldBlockButton ? styles.muted : styles.success}
-      >
-        {shouldBlockButton ? <Spinner size={12} /> : <>+</>}
-      </button>
-      <span>{quantity}</span>
-      <button
-        onClick={() => {
-          if (quantity === 1)
-            promptAndRemoveItem({ id, title }, actions.removeItemFromCart);
-          else actions.changeQtyCartItem({ id, quantity: quantity - 1 });
-        }}
-        className={shouldBlockButton ? styles.muted : styles.danger}
-        disabled={shouldBlockButton}
-      >
-        {shouldBlockButton ? <Spinner size={12} /> : <>-</>}
-      </button>
-    </div>
-  );
-}
-
-export interface AddButtonProps {
-  shouldBlockButton: boolean;
-  item: CardProps; //HACK: Not really
-}
-
-export function AddButton({ shouldBlockButton, item }: AddButtonProps) {
-  const { actions } = useContext(Context)!;
-
-  return (
-    <button
-      onClick={() => {
-        actions.addItemToCart(item);
-      }}
-      className={`${styles.btn} ${shouldBlockButton && styles.muted}`}
-      disabled={shouldBlockButton}
-    >
-      {shouldBlockButton ? <Spinner size={12} /> : <>Add to cart</>}
-    </button>
-  );
 }
 
 export default function Card(props: CardProps) {

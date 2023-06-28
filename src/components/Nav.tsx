@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import styles from "./page.module.css";
+import styles from "./routes/page.module.css";
 import { useContext, useEffect } from "react";
 import { Context } from "./Context";
 import navStyles from "./nav.module.css";

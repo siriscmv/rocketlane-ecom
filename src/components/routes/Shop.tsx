@@ -1,7 +1,7 @@
 import styles from "./page.module.css";
-import Card from "./Card";
-import { Context } from "./Context";
+import { Context } from "../Context";
 import { useContext, useEffect } from "react";
+import Card from "../Card";
 
 export default function Shop() {
   const { state, actions } = useContext(Context)!;
