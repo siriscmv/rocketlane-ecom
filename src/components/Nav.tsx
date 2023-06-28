@@ -23,9 +23,11 @@ export default function Nav() {
       </Link>
       <h1>{ROUTES[location.pathname as keyof typeof ROUTES]}</h1>
       <Link to="/cart">
-        <div className={navStyles.cart}>
-          <Cart size={32}></Cart>
-          <div className={navStyles.count}>{state.cart.length}</div>
+        <div className={navStyles.container}>
+          <div className={navStyles.cart}>
+            <Cart size={32}></Cart>
+            <div className={navStyles.count}>{state.cart.length}</div>
+          </div>
         </div>
       </Link>
     </nav>

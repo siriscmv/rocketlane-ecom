@@ -80,11 +80,7 @@ export default function Card(props: CardProps) {
           </span>
         </div>
         <span className={styles.description}>{props.description}</span>
-        {state.cart.some((c) => c.id === props.id) ? (
-          <QuantityController />
-        ) : (
-          <AddToCardButton />
-        )}
+        {qty ? <QuantityController /> : <AddToCardButton />}
       </div>
     </div>
   );
