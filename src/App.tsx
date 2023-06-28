@@ -27,4 +27,3 @@ function App() {
 }
 
 export default App;
-//TODO: Make /shop the default component, and have a navbar. Cart icon in navbar should show number of items

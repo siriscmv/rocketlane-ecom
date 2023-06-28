@@ -13,8 +13,16 @@
 
   min-height: 10vh;
   height: 100%;
+  width: 100vw;
 
   justify-content: space-between;
+  justify-items: stretch;
+  align-content: center;
+  align-items: center;
+}
+
+.nav > * {
+  margin: 12px;
 }
 
 .container {
