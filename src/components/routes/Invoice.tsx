@@ -1,13 +1,10 @@
 import styles from "./page.module.css";
 import invoiceStyles from "./invoice.module.css";
-import { Context } from "../Context";
-import { useContext, useEffect } from "react";
+import { Context } from "../../data/Context";
+import { useContext } from "react";
 
 export default function Invoice() {
-  const { state, actions } = useContext(Context)!;
-  useEffect(() => {
-    actions.getAllCartItems();
-  }, []);
+  const { state } = useContext(Context)!;
 
   const total = state.cart
     .map((i) => i.quantity * i.productItem.price)

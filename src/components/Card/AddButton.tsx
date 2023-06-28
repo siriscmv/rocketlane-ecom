@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { CardProps } from ".";
 import Spinner from "../../icons/Spinner";
-import { Context } from "../Context";
+import { Context } from "../../data/Context";
 import styles from "./card.module.css";
 
 export interface AddButtonProps {

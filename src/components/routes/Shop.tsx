@@ -1,13 +1,10 @@
 import styles from "./page.module.css";
-import { Context } from "../Context";
-import { useContext, useEffect } from "react";
+import { Context } from "../../data/Context";
+import { useContext } from "react";
 import Card from "../Card";
 
 export default function Shop() {
-  const { state, actions } = useContext(Context)!;
-  useEffect(() => {
-    actions.getAllItems();
-  }, []);
+  const { state } = useContext(Context)!;
 
   return (
     <div className={styles.container}>
