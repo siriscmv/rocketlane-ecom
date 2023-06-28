@@ -8,22 +8,29 @@ export type ActionType =
   | "ADD_TO_CART"
   | "CHANGE_QTY"
   | "REMOVE_FROM_CART"
-  | "INITIAL_SYNC";
+  | "INITIAL_SYNC"
+  | "FETCH_START"
+  | "FETCH_DONE"
+  | "FETCH_ERROR";
 
 export interface Cart {
   id: number;
   quantity: number;
 }
 
+type BackendAction = (typeof BackendActions)[keyof typeof BackendActions];
+
 export interface State {
   items: Item[];
   cart: Cart[];
   initialSynced: boolean;
+  fetching: BackendAction[];
 }
 
 type Payload =
   | undefined
   | number
+  | string
   | Item[]
   | Cart[]
   | { cart: Cart[]; items: Item[] }
@@ -38,7 +45,17 @@ export const initialState: State = {
   items: [],
   cart: [],
   initialSynced: false,
+  fetching: [],
 };
+
+/* 
+  Assuming each "Action" is atomic in the sense that
+  only 1 action of the same type can happen at any
+  point of time. All others should be blocked.
+  Although "BackendAction" refers to all possible actions,
+  this principle applies only to actions invoked as a 
+  result of explicit user interaction, like pressing a button.
+*/
 
 export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
@@ -85,20 +102,39 @@ export const reducer = (state: State, action: Action): State => {
         items: (action.payload as { cart: Cart[]; items: Item[] }).items,
         initialSynced: true,
       };
+    case "FETCH_START":
+      return {
+        ...state,
+        fetching: [...state.fetching, action.payload as BackendAction],
+      };
+    case "FETCH_DONE":
+      return {
+        ...state,
+        fetching: state.fetching.filter(
+          (a) => a !== (action.payload as BackendAction)
+        ),
+      };
+    case "FETCH_ERROR": // Do smth with this?
+      return {
+        ...state,
+        fetching: state.fetching.filter(
+          (a) => a !== (action.payload as BackendAction)
+        ),
+      };
   }
 };
 
-export const backendActions = [
-  "getAllItems",
-  "getAllCartItems",
-  "addItemToCart",
-  "changeQtyCartItem",
-  "removeItemFromCart",
-  "syncWithBackend",
-] as const;
+export enum BackendActions {
+  GetAllItems = "getAllItems",
+  GetAllCartItems = "getAllCartItems",
+  AddItemToCart = "addItemToCart",
+  ChangeQtyCartItem = "changeQtyCartItem",
+  RemoveItemFromCart = "removeItemFromCart",
+  SyncWithBackend = "syncWithBackend",
+}
 
 export type Actions = {
-  [K in (typeof backendActions)[number]]: (payload?: Payload) => void;
+  [K in BackendActions]: (payload?: Payload) => void;
 };
 
 export const Context = createContext<{
@@ -109,7 +145,6 @@ export const Context = createContext<{
 
 export const Provider = (props: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  //TODO: Show loading states for action buttons / cards, etc.
   //TODO: Impl optimisitic updates
   const actions: Actions = {
     getAllItems: () => {
@@ -123,11 +158,17 @@ export const Provider = (props: { children: ReactNode }) => {
       });
     },
     addItemToCart: (id: Payload) => {
+      dispatch({ type: "FETCH_START", payload: BackendActions.AddItemToCart });
       fetch(`/cart-item/${id}`, "POST").then((body) => {
         if (body) dispatch({ type: "ADD_TO_CART", payload: id });
+        dispatch({ type: "FETCH_DONE", payload: BackendActions.AddItemToCart });
       });
     },
     changeQtyCartItem: (payload: Payload) => {
+      dispatch({
+        type: "FETCH_START",
+        payload: BackendActions.ChangeQtyCartItem,
+      });
       fetch(
         `/cart-item/${(payload as { id: number; quantity: number }).id}`,
         "PATCH",
@@ -140,11 +181,23 @@ export const Provider = (props: { children: ReactNode }) => {
             type: "CHANGE_QTY",
             payload: payload as { id: number; quantity: number },
           });
+        dispatch({
+          type: "FETCH_DONE",
+          payload: BackendActions.ChangeQtyCartItem,
+        });
       });
     },
     removeItemFromCart: (id: Payload) => {
+      dispatch({
+        type: "FETCH_START",
+        payload: BackendActions.RemoveItemFromCart,
+      });
       fetch(`/cart-item/${id}`, "DELETE").then((body) => {
         if (body) dispatch({ type: "REMOVE_FROM_CART", payload: id });
+        dispatch({
+          type: "FETCH_DONE",
+          payload: BackendActions.RemoveItemFromCart,
+        });
       });
     },
     syncWithBackend: () => {

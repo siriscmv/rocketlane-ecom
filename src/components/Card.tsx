@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import styles from "./Card.module.css";
-import { Context } from "./Context";
+import { BackendActions, Context } from "./Context";
+import { Spinner } from "./icons";
 
 export interface CardProps {
   id: number;
@@ -16,15 +17,20 @@ export default function Card(props: CardProps) {
   const qty = state.cart.find((c) => c.id === props.id)?.quantity ?? null;
 
   const QuantityController = () => {
+    const disableButton = state.fetching.includes(
+      BackendActions.ChangeQtyCartItem
+    );
+
     return (
       <div className={styles.qty}>
         <button
           onClick={() => {
             actions.changeQtyCartItem({ id: props.id, quantity: qty! + 1 });
           }}
-          className={styles.success}
+          disabled={disableButton}
+          className={disableButton ? styles.muted : styles.success}
         >
-          +
+          {disableButton ? <Spinner size={12} /> : <>+</>}
         </button>
         <span>{qty}</span>
         <button
@@ -35,26 +41,33 @@ export default function Card(props: CardProps) {
             } else
               actions.changeQtyCartItem({ id: props.id, quantity: qty! - 1 });
           }}
-          className={styles.danger}
+          className={disableButton ? styles.muted : styles.danger}
+          disabled={disableButton}
         >
-          -
+          {disableButton ? <Spinner size={12} /> : <>-</>}
         </button>
       </div>
     );
   };
 
   const AddToCardButton = () => {
+    const disableButton = state.fetching.includes(BackendActions.AddItemToCart);
     return (
       <button
         onClick={() => {
           actions.addItemToCart(props.id);
         }}
-        className={styles.btn}
+        className={`${styles.btn} ${disableButton && styles.muted}`}
+        disabled={disableButton}
       >
-        Add to cart
+        {disableButton ? <Spinner size={12} /> : <>Add to cart</>}
       </button>
     );
   };
+
+  const disableButton = state.fetching.includes(
+    BackendActions.RemoveItemFromCart
+  );
 
   return (
     <div className={styles.main}>
@@ -64,9 +77,10 @@ export default function Card(props: CardProps) {
             const res = window.confirm(`Remove ${props.title} from cart?`);
             if (res) actions.removeItemFromCart(props.id);
           }}
-          className={styles.delete}
+          className={`${styles.delete} ${disableButton && styles.muted}`}
+          disabled={disableButton}
         >
-          X
+          {disableButton ? <Spinner size={12} /> : <>X</>}
         </button>
       )}
       <img className={styles.img} src={props.image} alt={props.title} />
