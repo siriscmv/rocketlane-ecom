@@ -12,8 +12,13 @@ export default async function fetch(
     opts.headers["Content-Type"] = "application/json";
   }
 
-  if (!process.env.BASE_API_URL) throw new Error("BASE_API_URL is not set");
-  const result = await window.fetch(`${process.env.BASE_API_URL}${path}`, opts);
+  if (!process.env.REACT_APP_BASE_API_URL)
+    throw new Error("REACT_APP_BASE_API_URL is not set");
+
+  const result = await window.fetch(
+    `${process.env.REACT_APP_BASE_API_URL}${path}`,
+    opts
+  );
 
   if (!result.ok) {
     window.location.href = `/error?msg=${`Error, status code ${result.status}`}`;
