@@ -33,6 +33,7 @@ type Payload =
   | number
   | string
   | Item[]
+  | Item
   | Cart[]
   | { cart: Cart[]; items: Item[] }
   | { id: number; quantity: number };
@@ -77,7 +78,14 @@ export const reducer = (state: State, action: Action): State => {
     case "ADD_TO_CART": //Single ID
       return {
         ...state,
-        cart: [...state.cart, { id: action.payload as number, quantity: 1 }],
+        cart: [
+          ...state.cart,
+          {
+            id: (action.payload as Item).id as number,
+            productItem: action.payload! as Item,
+            quantity: 1,
+          },
+        ],
       };
     case "CHANGE_QTY": //{id, quantity}
       const cartItemsInc = [...state.cart];
@@ -158,10 +166,10 @@ export const Provider = (props: { children: ReactNode }) => {
         if (body) dispatch({ type: "SET_CART", payload: body });
       });
     },
-    addItemToCart: (id: Payload) => {
+    addItemToCart: (payload: Payload) => {
       dispatch({ type: "FETCH_START", payload: BackendActions.AddItemToCart });
-      fetch(`/cart-item/${id}`, "POST").then((body) => {
-        if (body) dispatch({ type: "ADD_TO_CART", payload: id });
+      fetch(`/cart-item/${(payload as Item).id}`, "POST").then((body) => {
+        if (body) dispatch({ type: "ADD_TO_CART", payload });
         dispatch({ type: "FETCH_DONE", payload: BackendActions.AddItemToCart });
       });
     },

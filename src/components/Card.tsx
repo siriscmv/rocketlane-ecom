@@ -64,16 +64,16 @@ export function QuantityController({
 
 export interface AddButtonProps {
   shouldBlockButton: boolean;
-  id: CardProps["id"];
+  item: CardProps; //HACK: Not really
 }
 
-export function AddButton({ shouldBlockButton, id }: AddButtonProps) {
+export function AddButton({ shouldBlockButton, item }: AddButtonProps) {
   const { actions } = useContext(Context)!;
 
   return (
     <button
       onClick={() => {
-        actions.addItemToCart(id);
+        actions.addItemToCart(item);
       }}
       className={`${styles.btn} ${shouldBlockButton && styles.muted}`}
       disabled={shouldBlockButton}
@@ -132,7 +132,7 @@ export default function Card(props: CardProps) {
             shouldBlockButton={state.fetching.includes(
               BackendActions.AddItemToCart
             )}
-            id={props.id}
+            item={props}
           />
         )}
       </div>
