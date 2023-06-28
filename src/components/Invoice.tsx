@@ -1,5 +1,5 @@
-import styles from "./Page.module.css";
-import invoiceStyles from "./Invoice.module.css";
+import styles from "./page.module.css";
+import invoiceStyles from "./invoice.module.css";
 import { Context } from "./Context";
 import { useContext, useEffect } from "react";
 

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import styles from "./Page.module.css";
+import styles from "./page.module.css";
 
 export default function Error() {
   const [errorMessage, setErrorMessage] = useState<string>("");

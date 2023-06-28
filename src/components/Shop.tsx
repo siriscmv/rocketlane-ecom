@@ -1,4 +1,4 @@
-import styles from "./Page.module.css";
+import styles from "./page.module.css";
 import Card from "./Card";
 import { Context } from "./Context";
 import { useContext, useEffect } from "react";

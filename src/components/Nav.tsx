@@ -1,8 +1,8 @@
 import { Link, useLocation } from "react-router-dom";
-import styles from "./Page.module.css";
+import styles from "./page.module.css";
 import { useContext, useEffect } from "react";
 import { Context } from "./Context";
-import navStyles from "./Nav.module.css";
+import navStyles from "./nav.module.css";
 import CartIcon from "../icons/Cart";
 import Logo from "../icons/Logo";
 
