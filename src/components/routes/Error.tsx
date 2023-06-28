@@ -1,14 +1,9 @@
-import { useEffect, useState } from "react";
 import styles from "./page.module.css";
 
 export default function Error() {
-  const [errorMessage, setErrorMessage] = useState<string>("");
-  useEffect(() => {
-    const msg =
-      new window.URL(window.location.href).searchParams.get("msg") ??
-      "Something went wrong";
-    setErrorMessage(msg);
-  }, []);
+  const errorMessage =
+    new window.URL(window.location.href).searchParams.get("msg") ??
+    "Something went wrong";
 
   return (
     <div className={styles.container}>
