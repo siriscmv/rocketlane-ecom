@@ -20,62 +20,74 @@ function promptAndRemoveItem(
   if (shoudlRemove) removeItemFromCart(item.id);
 }
 
-export default function Card(props: CardProps) {
-  const { state, actions } = useContext(Context)!;
-  const qty = state.cart.find((c) => c.id === props.id)?.quantity ?? null;
+export interface QuantityControllerProps {
+  shouldBlockButton: boolean;
+  id: CardProps["id"];
+  title: CardProps["title"];
+  quantity: number;
+}
 
-  const QuantityController = () => {
-    const disableButton = state.fetching.includes(
-      BackendActions.ChangeQtyCartItem
-    );
+export function QuantityController({
+  shouldBlockButton,
+  id,
+  title,
+  quantity,
+}: QuantityControllerProps) {
+  const { actions } = useContext(Context)!;
 
-    return (
-      <div className={styles.qty}>
-        <button
-          onClick={() => {
-            actions.changeQtyCartItem({ id: props.id, quantity: qty! + 1 });
-          }}
-          disabled={disableButton}
-          className={disableButton ? styles.muted : styles.success}
-        >
-          {disableButton ? <Spinner size={12} /> : <>+</>}
-        </button>
-        <span>{qty}</span>
-        <button
-          onClick={() => {
-            if (qty === 1)
-              promptAndRemoveItem(
-                { id: props.id, title: props.title },
-                actions.removeItemFromCart
-              );
-            else
-              actions.changeQtyCartItem({ id: props.id, quantity: qty! - 1 });
-          }}
-          className={disableButton ? styles.muted : styles.danger}
-          disabled={disableButton}
-        >
-          {disableButton ? <Spinner size={12} /> : <>-</>}
-        </button>
-      </div>
-    );
-  };
-
-  const AddToCardButton = () => {
-    const disableButton = state.fetching.includes(BackendActions.AddItemToCart);
-    return (
+  return (
+    <div className={styles.qty}>
       <button
         onClick={() => {
-          actions.addItemToCart(props.id);
+          actions.changeQtyCartItem({ id, quantity: quantity + 1 });
         }}
-        className={`${styles.btn} ${disableButton && styles.muted}`}
-        disabled={disableButton}
+        disabled={shouldBlockButton}
+        className={shouldBlockButton ? styles.muted : styles.success}
       >
-        {disableButton ? <Spinner size={12} /> : <>Add to cart</>}
+        {shouldBlockButton ? <Spinner size={12} /> : <>+</>}
       </button>
-    );
-  };
+      <span>{quantity}</span>
+      <button
+        onClick={() => {
+          if (quantity === 1)
+            promptAndRemoveItem({ id, title }, actions.removeItemFromCart);
+          else actions.changeQtyCartItem({ id, quantity: quantity - 1 });
+        }}
+        className={shouldBlockButton ? styles.muted : styles.danger}
+        disabled={shouldBlockButton}
+      >
+        {shouldBlockButton ? <Spinner size={12} /> : <>-</>}
+      </button>
+    </div>
+  );
+}
 
-  const disableButton = state.fetching.includes(
+export interface AddButtonProps {
+  shouldBlockButton: boolean;
+  id: CardProps["id"];
+}
+
+export function AddButton({ shouldBlockButton, id }: AddButtonProps) {
+  const { actions } = useContext(Context)!;
+
+  return (
+    <button
+      onClick={() => {
+        actions.addItemToCart(id);
+      }}
+      className={`${styles.btn} ${shouldBlockButton && styles.muted}`}
+      disabled={shouldBlockButton}
+    >
+      {shouldBlockButton ? <Spinner size={12} /> : <>Add to cart</>}
+    </button>
+  );
+}
+
+export default function Card(props: CardProps) {
+  const { state, actions } = useContext(Context)!;
+  const quantity = state.cart.find((c) => c.id === props.id)?.quantity ?? null;
+
+  const shouldBlockButton = state.fetching.includes(
     BackendActions.RemoveItemFromCart
   );
 
@@ -89,10 +101,10 @@ export default function Card(props: CardProps) {
               actions.removeItemFromCart
             )
           }
-          className={`${styles.delete} ${disableButton && styles.muted}`}
-          disabled={disableButton}
+          className={`${styles.delete} ${shouldBlockButton && styles.muted}`}
+          disabled={shouldBlockButton}
         >
-          {disableButton ? <Spinner size={12} /> : <>X</>}
+          {shouldBlockButton ? <Spinner size={12} /> : <>X</>}
         </button>
       )}
       <img className={styles.img} src={props.image} alt={props.title} />
@@ -106,7 +118,23 @@ export default function Card(props: CardProps) {
           </span>
         </div>
         <span className={styles.description}>{props.description}</span>
-        {qty ? <QuantityController /> : <AddToCardButton />}
+        {quantity ? (
+          <QuantityController
+            shouldBlockButton={state.fetching.includes(
+              BackendActions.ChangeQtyCartItem
+            )}
+            id={props.id}
+            title={props.title}
+            quantity={quantity}
+          />
+        ) : (
+          <AddButton
+            shouldBlockButton={state.fetching.includes(
+              BackendActions.AddItemToCart
+            )}
+            id={props.id}
+          />
+        )}
       </div>
     </div>
   );
