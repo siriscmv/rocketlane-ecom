@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import styles from "./card.module.css";
-import { BackendActions, Context } from "./Context";
+import { Actions, BackendActions, Context } from "./Context";
 import Spinner from "../icons/Spinner";
 
 export interface CardProps {
@@ -10,6 +10,14 @@ export interface CardProps {
   image: string;
   price: number;
   showRemoveButton?: boolean;
+}
+
+function promptAndRemoveItem(
+  item: { id: number; title: string },
+  removeItemFromCart: Actions["removeItemFromCart"]
+) {
+  const shoudlRemove = window.confirm(`Remove ${item.title} from cart?`);
+  if (shoudlRemove) removeItemFromCart(item.id);
 }
 
 export default function Card(props: CardProps) {
@@ -35,10 +43,12 @@ export default function Card(props: CardProps) {
         <span>{qty}</span>
         <button
           onClick={() => {
-            if (qty === 1) {
-              const res = window.confirm("Remove item from cart?");
-              if (res) actions.removeItemFromCart(props.id);
-            } else
+            if (qty === 1)
+              promptAndRemoveItem(
+                { id: props.id, title: props.title },
+                actions.removeItemFromCart
+              );
+            else
               actions.changeQtyCartItem({ id: props.id, quantity: qty! - 1 });
           }}
           className={disableButton ? styles.muted : styles.danger}
@@ -73,10 +83,12 @@ export default function Card(props: CardProps) {
     <div className={styles.main}>
       {props.showRemoveButton && (
         <button
-          onClick={() => {
-            const res = window.confirm(`Remove ${props.title} from cart?`);
-            if (res) actions.removeItemFromCart(props.id);
-          }}
+          onClick={() =>
+            promptAndRemoveItem(
+              { id: props.id, title: props.title },
+              actions.removeItemFromCart
+            )
+          }
           className={`${styles.delete} ${disableButton && styles.muted}`}
           disabled={disableButton}
         >
