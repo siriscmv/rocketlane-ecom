@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import styles from "./Home.module.css";
+import styles from "./Page.module.css";
 
 export default function Error() {
   const [errorMessage, setErrorMessage] = useState<string>("");
@@ -8,8 +8,10 @@ export default function Error() {
   }, []);
 
   return (
-    <div className={styles.main}>
-      <h6>{errorMessage}</h6>
+    <div className={styles.container}>
+      <div className={styles.main}>
+        <h2>{errorMessage}</h2>
+      </div>
     </div>
   );
 }

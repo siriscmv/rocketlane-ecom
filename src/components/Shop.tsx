@@ -2,7 +2,6 @@ import styles from "./Page.module.css";
 import Card from "./Card";
 import { Context } from "./Context";
 import { useContext, useEffect } from "react";
-import { Link } from "react-router-dom";
 
 export default function Shop() {
   const { state, actions } = useContext(Context)!;
@@ -12,12 +11,6 @@ export default function Shop() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.header}>
-        <Link className={styles.back} to="/">
-          Go Back
-        </Link>
-        <h1 className={styles.title}>List of available products</h1>
-      </div>
       <div className={styles.main}>
         {state.items.map((item) => (
           <Card

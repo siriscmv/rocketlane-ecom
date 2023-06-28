@@ -13,12 +13,6 @@ export default function Cart() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.header}>
-        <Link className={styles.back} to="/">
-          Go Back
-        </Link>
-        <h1 className={styles.title}>Your Cart</h1>
-      </div>
       <div className={mainStyles.linkbtn}>
         <Link to="/invoice">Checkout</Link>
       </div>
