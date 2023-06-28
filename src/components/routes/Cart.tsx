@@ -10,7 +10,7 @@ export default function Cart() {
 
   return (
     <div className={styles.container}>
-      <Link className={styles.linkbtn} to="/invoice">
+      <Link className={styles.linkbtn} to="/order">
         <span>Checkout</span>
         <RightChevrons size={36} />
       </Link>

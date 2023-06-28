@@ -9,7 +9,7 @@ import Logo from "../icons/Logo";
 const ROUTES = {
   "/": "Shop Items",
   "/cart": "Your Cart",
-  "/invoice": "Your Invoice",
+  "/order": "Your Order",
   "/error": "Error",
 };
 
