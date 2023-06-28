@@ -16,6 +16,7 @@ export type ActionType =
 export interface Cart {
   id: number;
   quantity: number;
+  productItem: Item;
 }
 
 type BackendAction = (typeof BackendActions)[keyof typeof BackendActions];

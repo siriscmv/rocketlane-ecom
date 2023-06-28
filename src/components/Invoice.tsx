@@ -10,7 +10,7 @@ export default function Invoice() {
   }, []);
 
   const total = state.cart
-    .map((i) => i.quantity * state.items.find((it) => it.id === i.id)!.price)
+    .map((i) => i.quantity * i.productItem.price)
     .reduce((acc, curr) => acc + curr, 0);
 
   return (
@@ -27,20 +27,15 @@ export default function Invoice() {
             </tr>
           </thead>
           <tbody>
-            {state.cart
-              .map((c) => ({
-                item: state.items.find((i) => i.id === c.id)!,
-                quantity: c.quantity,
-              }))
-              .map(({ item, quantity }) => (
-                <tr>
-                  <td>{item.id}</td>
-                  <td>{item.title}</td>
-                  <td>₹{item.price.toFixed(2)}</td>
-                  <td>{quantity}</td>
-                  <td>₹{(item.price * quantity).toFixed(2)}</td>
-                </tr>
-              ))}
+            {state.cart.map(({ productItem: item, quantity }) => (
+              <tr>
+                <td>{item.id}</td>
+                <td>{item.title}</td>
+                <td>₹{item.price.toFixed(2)}</td>
+                <td>{quantity}</td>
+                <td>₹{(item.price * quantity).toFixed(2)}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
         <h3>Total amount: ₹{total}</h3>
