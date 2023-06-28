@@ -156,69 +156,64 @@ export const Provider = (props: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const actions: Actions = {
-    getAllItems: () => {
-      fetch("/product-items").then((body) => {
-        if (body) dispatch({ type: "SET_ITEMS", payload: body });
-      });
+    getAllItems: async () => {
+      const payload = await fetch("/product-items");
+      if (payload) dispatch({ type: "SET_ITEMS", payload });
     },
-    getAllCartItems: () => {
-      fetch("/cart-items").then((body) => {
-        if (body) dispatch({ type: "SET_CART", payload: body });
-      });
+    getAllCartItems: async () => {
+      const payload = await fetch("/cart-items");
+      if (payload) dispatch({ type: "SET_CART", payload });
     },
-    addItemToCart: (payload: Payload) => {
+    addItemToCart: async (payload: Payload) => {
       dispatch({ type: "FETCH_START", payload: BackendActions.AddItemToCart });
-      fetch(`/cart-item/${(payload as Item).id}`, "POST").then((body) => {
-        if (body) dispatch({ type: "ADD_TO_CART", payload });
-        dispatch({ type: "FETCH_DONE", payload: BackendActions.AddItemToCart });
-      });
+      const done = await fetch(`/cart-item/${(payload as Item).id}`, "POST");
+
+      if (done) dispatch({ type: "ADD_TO_CART", payload });
+      dispatch({ type: "FETCH_DONE", payload: BackendActions.AddItemToCart });
     },
-    changeQtyCartItem: (payload: Payload) => {
+    changeQtyCartItem: async (payload: Payload) => {
       dispatch({
         type: "FETCH_START",
         payload: BackendActions.ChangeQtyCartItem,
       });
-      fetch(
+      const done = await fetch(
         `/cart-item/${(payload as { id: number; quantity: number }).id}`,
         "PATCH",
         {
           quantity: (payload as { id: number; quantity: number }).quantity,
         }
-      ).then((body) => {
-        if (body)
-          dispatch({
-            type: "CHANGE_QTY",
-            payload: payload as { id: number; quantity: number },
-          });
+      );
+      if (done)
         dispatch({
-          type: "FETCH_DONE",
-          payload: BackendActions.ChangeQtyCartItem,
+          type: "CHANGE_QTY",
+          payload: payload as { id: number; quantity: number },
         });
+      dispatch({
+        type: "FETCH_DONE",
+        payload: BackendActions.ChangeQtyCartItem,
       });
     },
-    removeItemFromCart: (id: Payload) => {
+    removeItemFromCart: async (id: Payload) => {
       dispatch({
         type: "FETCH_START",
         payload: BackendActions.RemoveItemFromCart,
       });
-      fetch(`/cart-item/${id}`, "DELETE").then((body) => {
-        if (body) dispatch({ type: "REMOVE_FROM_CART", payload: id });
-        dispatch({
-          type: "FETCH_DONE",
-          payload: BackendActions.RemoveItemFromCart,
-        });
+      const done = await fetch(`/cart-item/${id}`, "DELETE");
+      if (done) dispatch({ type: "REMOVE_FROM_CART", payload: id });
+      dispatch({
+        type: "FETCH_DONE",
+        payload: BackendActions.RemoveItemFromCart,
       });
     },
-    syncWithBackend: () => {
-      Promise.all([fetch("/product-items"), fetch(`/cart-items`)]).then(
-        (result) => {
-          if (result)
-            dispatch({
-              type: "INITIAL_SYNC",
-              payload: { items: result[0], cart: result[1] },
-            });
-        }
-      );
+    syncWithBackend: async () => {
+      const result = await Promise.all([
+        fetch("/product-items"),
+        fetch(`/cart-items`),
+      ]);
+      dispatch({
+        type: "INITIAL_SYNC",
+        payload: { items: result[0], cart: result[1] },
+      });
     },
   };
 
