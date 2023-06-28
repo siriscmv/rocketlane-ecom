@@ -1,9 +1,10 @@
 import { Link, useLocation } from "react-router-dom";
 import styles from "./Page.module.css";
-import { Cart, Logo } from "./icons";
 import { useContext, useEffect } from "react";
 import { Context } from "./Context";
 import navStyles from "./Nav.module.css";
+import CartIcon from "../icons/Cart";
+import Logo from "../icons/Logo";
 
 const ROUTES = {
   "/": "Shop Items",
@@ -28,7 +29,7 @@ export default function Nav() {
       <Link to="/cart">
         <div className={navStyles.container}>
           <div className={navStyles.cart}>
-            <Cart size={32}></Cart>
+            <CartIcon size={32}></CartIcon>
             <div className={navStyles.count}>{state.cart.length}</div>
           </div>
         </div>
