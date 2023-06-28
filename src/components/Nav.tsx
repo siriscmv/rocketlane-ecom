@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import styles from "./Page.module.css";
 import { Cart, Logo } from "./icons";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { Context } from "./Context";
 import navStyles from "./Nav.module.css";
 
@@ -14,7 +14,10 @@ const ROUTES = {
 
 export default function Nav() {
   const location = useLocation();
-  const { state } = useContext(Context)!;
+  const { state, actions } = useContext(Context)!;
+  useEffect(() => {
+    if (!state.initialSynced) actions.syncWithBackend();
+  }, []);
 
   return (
     <nav className={styles.nav}>
