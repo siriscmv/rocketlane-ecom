@@ -21,7 +21,7 @@ export function promptAndRemoveItem(
 export default function Card(props: CardProps) {
   const { state, actions } = useContext(Context)!;
   const { id, showRemoveButton, title, image, price, description } = props;
-  const quantity = state.cart.find((c) => c.id === id)?.quantity ?? null;
+  const quantity = state.cart?.find((c) => c.id === id)?.quantity ?? null;
 
   const shouldBlockButton = state.fetching.includes(
     BackendActions.RemoveItemFromCart

@@ -16,8 +16,8 @@ export type ActionType =
 type BackendAction = (typeof BackendActions)[keyof typeof BackendActions];
 
 export interface State {
-  items: Item[];
-  cart: Cart[];
+  items: Item[] | null;
+  cart: Cart[] | null;
   initialSynced: boolean;
   fetching: BackendAction[];
 }
@@ -38,8 +38,8 @@ export interface Action {
 }
 
 export const initialState: State = {
-  items: [],
-  cart: [],
+  items: null,
+  cart: null,
   initialSynced: false,
   fetching: [],
 };
@@ -63,17 +63,16 @@ export const reducer = (state: State, action: Action): State => {
     case "SET_CART": //List of full items
       return {
         ...state,
-        cart: action.payload as Cart[],
-        items:
-          state.items.length === 0
-            ? (action.payload as any[]).map((c) => c.productItem)
-            : state.items,
+        cart:
+          state.cart === null
+            ? (action.payload as Cart[])
+            : [...(action.payload as Cart[]), ...state.cart],
       };
     case "ADD_TO_CART": //Single ID
       return {
         ...state,
         cart: [
-          ...state.cart,
+          ...(state.cart ?? []),
           {
             id: (action.payload as Item).id as number,
             productItem: action.payload! as Item,
@@ -82,6 +81,8 @@ export const reducer = (state: State, action: Action): State => {
         ],
       };
     case "CHANGE_QTY": //{id, quantity}
+      if (!state.cart) throw new Error("Cart is not yet initialized");
+
       const cartItemsInc = [...state.cart];
       cartItemsInc.find(
         (i) => i.id === (action.payload as { id: number; quantity: number }).id
@@ -94,6 +95,8 @@ export const reducer = (state: State, action: Action): State => {
         cart: cartItemsInc,
       };
     case "REMOVE_FROM_CART": //Single ID
+      if (!state.cart) throw new Error("Cart is not yet initialized");
+
       return {
         ...state,
         cart: state.cart.filter((i) => i.id !== action.payload),

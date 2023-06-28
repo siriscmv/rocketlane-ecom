@@ -15,7 +15,9 @@ export default function Cart() {
         <RightChevrons size={36} />
       </Link>
       <div className={styles.main}>
-        {state.cart.length === 0 ? (
+        {state.cart === null ? (
+          <span>Loading ...</span>
+        ) : state.cart.length === 0 ? (
           <h3>Cart is empty</h3>
         ) : (
           state.cart.map(({ productItem: item }) => (

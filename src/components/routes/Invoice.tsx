@@ -6,9 +6,10 @@ import { useContext } from "react";
 export default function Invoice() {
   const { state } = useContext(Context)!;
 
-  const total = state.cart
-    .map((i) => i.quantity * i.productItem.price)
-    .reduce((acc, curr) => acc + curr, 0);
+  const total =
+    state.cart
+      ?.map((i) => i.quantity * i.productItem.price)
+      ?.reduce((acc, curr) => acc + curr, 0) ?? 0;
 
   return (
     <div className={styles.container}>
@@ -24,7 +25,9 @@ export default function Invoice() {
             </tr>
           </thead>
           <tbody>
-            {state.cart.length === 0 ? (
+            {state.cart === null ? (
+              <span>Loading ...</span>
+            ) : state.cart.length === 0 ? (
               <h3>Cart is empty</h3>
             ) : (
               state.cart.map(({ productItem: item, quantity }) => (

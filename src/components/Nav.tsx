@@ -30,7 +30,9 @@ export default function Nav() {
         <div className={navStyles.container}>
           <div className={navStyles.cart}>
             <CartIcon size={32}></CartIcon>
-            <div className={navStyles.count}>{state.cart.length}</div>
+            {state.cart && (
+              <div className={navStyles.count}>{state.cart.length}</div>
+            )}
           </div>
         </div>
       </Link>

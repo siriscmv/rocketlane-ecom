@@ -9,7 +9,9 @@ export default function Shop() {
   return (
     <div className={styles.container}>
       <div className={styles.main}>
-        {state.items.length === 0 ? (
+        {state.items === null ? (
+          <span>Loading ...</span>
+        ) : state.items.length === 0 ? (
           <h3>Shop is empty</h3>
         ) : (
           state.items.map((item) => (
