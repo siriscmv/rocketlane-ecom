@@ -24,7 +24,9 @@ export function promptAndRemoveItem(
 
 export default function Card(props: CardProps) {
   const { state, actions } = useContext(Context)!;
-  const quantity = state.cart.find((c) => c.id === props.id)?.quantity ?? null;
+  const quantity = state.cart.find((c) => c.id === id)?.quantity ?? null;
+
+  const { id, showRemoveButton, title, image, price, description } = props;
 
   const shouldBlockButton = state.fetching.includes(
     BackendActions.RemoveItemFromCart
@@ -32,11 +34,11 @@ export default function Card(props: CardProps) {
 
   return (
     <div className={styles.main}>
-      {props.showRemoveButton && (
+      {showRemoveButton && (
         <button
           onClick={() =>
             promptAndRemoveItem(
-              { id: props.id, title: props.title },
+              { id: id, title: title },
               actions.removeItemFromCart
             )
           }
@@ -46,24 +48,24 @@ export default function Card(props: CardProps) {
           {shouldBlockButton ? <Spinner size={12} /> : <>X</>}
         </button>
       )}
-      <img className={styles.img} src={props.image} alt={props.title} />
+      <img className={styles.img} src={image} alt={title} />
       <div className={styles.content}>
         <div className={styles.header}>
           <span className={styles.title}>
-            <b>{props.title}</b>
+            <b>{title}</b>
           </span>
           <span>
-            Price: <b>₹{props.price.toFixed(2)}</b>
+            Price: <b>₹{price.toFixed(2)}</b>
           </span>
         </div>
-        <span className={styles.description}>{props.description}</span>
+        <span className={styles.description}>{description}</span>
         {quantity ? (
           <QuantityController
             shouldBlockButton={state.fetching.includes(
               BackendActions.ChangeQtyCartItem
             )}
-            id={props.id}
-            title={props.title}
+            id={id}
+            title={title}
             quantity={quantity}
           />
         ) : (
