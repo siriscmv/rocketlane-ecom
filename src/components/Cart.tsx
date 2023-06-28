@@ -18,17 +18,21 @@ export default function Cart() {
         <RightChevrons size={36} />
       </Link>
       <div className={styles.main}>
-        {state.cart.map(({ productItem: item }, i) => (
-          <Card
-            showRemoveButton
-            id={item.id}
-            key={item.id}
-            title={item.title}
-            price={item.price}
-            description={item.description}
-            image={item.image}
-          />
-        ))}
+        {state.cart.length === 0 ? (
+          <h3>Cart is empty</h3>
+        ) : (
+          state.cart.map(({ productItem: item }) => (
+            <Card
+              showRemoveButton
+              id={item.id}
+              key={item.id}
+              title={item.title}
+              price={item.price}
+              description={item.description}
+              image={item.image}
+            />
+          ))
+        )}
       </div>
     </div>
   );

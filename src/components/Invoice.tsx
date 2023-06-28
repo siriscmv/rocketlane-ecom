@@ -27,15 +27,19 @@ export default function Invoice() {
             </tr>
           </thead>
           <tbody>
-            {state.cart.map(({ productItem: item, quantity }) => (
-              <tr>
-                <td>{item.id}</td>
-                <td>{item.title}</td>
-                <td>₹{item.price.toFixed(2)}</td>
-                <td>{quantity}</td>
-                <td>₹{(item.price * quantity).toFixed(2)}</td>
-              </tr>
-            ))}
+            {state.cart.length === 0 ? (
+              <h3>Cart is empty</h3>
+            ) : (
+              state.cart.map(({ productItem: item, quantity }) => (
+                <tr>
+                  <td>{item.id}</td>
+                  <td>{item.title}</td>
+                  <td>₹{item.price.toFixed(2)}</td>
+                  <td>{quantity}</td>
+                  <td>₹{(item.price * quantity).toFixed(2)}</td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
         <h3>Total amount: ₹{total}</h3>
