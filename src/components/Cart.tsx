@@ -1,9 +1,9 @@
 import styles from "./Page.module.css";
-import mainStyles from "./Home.module.css";
 import Card from "./Card";
 import { Context } from "./Context";
 import { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { RightChevrons } from "./icons";
 
 export default function Cart() {
   const { state, actions } = useContext(Context)!;
@@ -13,9 +13,10 @@ export default function Cart() {
 
   return (
     <div className={styles.container}>
-      <div className={mainStyles.linkbtn}>
-        <Link to="/invoice">Checkout</Link>
-      </div>
+      <Link className={styles.linkbtn} to="/invoice">
+        <span>Checkout</span>
+        <RightChevrons size={36} />
+      </Link>
       <div className={styles.main}>
         {state.cart
           .map((c) => state.items.find((i) => i.id === c.id))

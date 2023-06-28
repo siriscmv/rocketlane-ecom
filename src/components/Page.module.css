@@ -5,6 +5,8 @@
 
   justify-content: center;
   align-content: flex-start;
+
+  margin-top: 14px;
 }
 
 .nav {
@@ -35,4 +37,26 @@
 
 .danger {
   color: #f44336;
+}
+
+.linkbtn {
+  display: flex;
+  flex-direction: row;
+
+  justify-content: space-evenly;
+  align-items: center;
+  text-align: center;
+
+  font-weight: 700;
+  background-color: #4caf50;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+
+  align-self: center;
+}
+
+.linkbtn > * {
+  margin: 8px;
+  padding: 8px;
 }
