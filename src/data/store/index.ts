@@ -1,5 +1,6 @@
 import { Dispatch, createContext } from "react";
 import { Cart, Item } from "../interfaces";
+import { IncomingPayload } from "./Provider";
 
 export type ActionType =
   | "SET_ITEMS"
@@ -22,11 +23,14 @@ export interface State {
   fetching: BackendAction[];
 }
 
-export type Payload = any; //Will be narrowed down in actions inside Provider.tsx
+export type DispatchPayload = unknown;
+/*
+  Do not call dispatch directly. Use actions instead.
+*/
 
 export interface Action {
   type: ActionType;
-  payload?: Payload;
+  payload?: DispatchPayload;
 }
 
 export const initialState: State = {
@@ -55,7 +59,12 @@ export enum BackendActions {
 }
 
 export type Actions = {
-  [K in BackendActions]: (payload?: Payload) => void;
+  [BackendActions.GetAllItems]: () => void;
+  [BackendActions.GetAllCartItems]: () => void;
+  [BackendActions.AddItemToCart]: (item: Item) => void;
+  [BackendActions.ChangeQtyCartItem]: (id: number, quantity: number) => void;
+  [BackendActions.RemoveItemFromCart]: (id: number) => void;
+  [BackendActions.SyncWithBackend]: () => void;
 };
 
 export const Context = createContext<{

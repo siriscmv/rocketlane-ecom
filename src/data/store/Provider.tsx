@@ -1,8 +1,10 @@
 import { ReactNode, useReducer } from "react";
-import { initialState, Actions, BackendActions, Context, Payload } from ".";
+import { initialState, Actions, BackendActions, Context } from ".";
 import { Item, Cart } from "../interfaces";
 import fetch from "../../utils/fetch";
 import reducer from "./reducer";
+
+export type IncomingPayload = Item | { id: number; quantity: number } | number;
 
 export default function Provider(props: { children: ReactNode }) {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -16,25 +18,25 @@ export default function Provider(props: { children: ReactNode }) {
       const payload: Cart[] | null = await fetch("/cart-items");
       if (payload) dispatch({ type: "SET_CART", payload });
     },
-    addItemToCart: async (payload: Item) => {
+    addItemToCart: async (item: Item) => {
       dispatch({ type: "FETCH_START", payload: BackendActions.AddItemToCart });
-      const done = await fetch(`/cart-item/${payload.id}`, "POST");
+      const done = await fetch(`/cart-item/${item.id}`, "POST");
 
-      if (done) dispatch({ type: "ADD_TO_CART", payload });
+      if (done) dispatch({ type: "ADD_TO_CART", payload: item });
       dispatch({ type: "FETCH_DONE", payload: BackendActions.AddItemToCart });
     },
-    changeQtyCartItem: async (payload: { id: number; quantity: number }) => {
+    changeQtyCartItem: async (id: number, quantity: number) => {
       dispatch({
         type: "FETCH_START",
         payload: BackendActions.ChangeQtyCartItem,
       });
-      const done = await fetch(`/cart-item/${payload.id}`, "PATCH", {
-        quantity: payload.quantity,
+      const done = await fetch(`/cart-item/${id}`, "PATCH", {
+        quantity,
       });
       if (done)
         dispatch({
           type: "CHANGE_QTY",
-          payload,
+          payload: { id, quantity },
         });
       dispatch({
         type: "FETCH_DONE",

@@ -24,7 +24,7 @@ export function QuantityController({
     <div className={styles.qty}>
       <button
         onClick={() => {
-          actions.changeQtyCartItem({ id, quantity: quantity + 1 });
+          actions.changeQtyCartItem(id, quantity + 1);
         }}
         disabled={shouldBlockButton}
         className={shouldBlockButton ? styles.muted : styles.success}
@@ -36,7 +36,7 @@ export function QuantityController({
         onClick={() => {
           if (quantity === 1)
             promptAndRemoveItem({ id, title }, actions.removeItemFromCart);
-          else actions.changeQtyCartItem({ id, quantity: quantity - 1 });
+          else actions.changeQtyCartItem(id, quantity - 1);
         }}
         className={shouldBlockButton ? styles.muted : styles.danger}
         disabled={shouldBlockButton}

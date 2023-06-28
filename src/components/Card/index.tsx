@@ -26,7 +26,6 @@ export default function Card(props: CardProps) {
   const shouldBlockButton = state.fetching.includes(
     BackendActions.RemoveItemFromCart
   );
-
   return (
     <div className={styles.main}>
       {showRemoveButton && (
