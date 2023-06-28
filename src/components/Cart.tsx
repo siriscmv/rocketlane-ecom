@@ -18,23 +18,17 @@ export default function Cart() {
         <RightChevrons size={36} />
       </Link>
       <div className={styles.main}>
-        {state.cart
-          .map((c) => state.items.find((i) => i.id === c.id))
-          .map((item, i) =>
-            item ? (
-              <Card
-                showRemoveButton
-                id={item.id}
-                key={item.id}
-                title={item.title}
-                price={item.price}
-                description={item.description}
-                image={item.image}
-              />
-            ) : (
-              <span key={i}>Not found</span>
-            )
-          )}
+        {state.cart.map(({ productItem: item }, i) => (
+          <Card
+            showRemoveButton
+            id={item.id}
+            key={item.id}
+            title={item.title}
+            price={item.price}
+            description={item.description}
+            image={item.image}
+          />
+        ))}
       </div>
     </div>
   );
