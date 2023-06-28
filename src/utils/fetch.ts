@@ -1,4 +1,4 @@
-const BASE_API_URL = "https://d037-14-142-185-230.ngrok-free.app/api/v1";
+const BASE_API_URL = "https://3cb8-118-185-191-21.ngrok-free.app/api/v1";
 
 export default async function fetch(
   path: string,

@@ -148,7 +148,7 @@ export const Provider = (props: { children: ReactNode }) => {
       });
     },
     syncWithBackend: () => {
-      Promise.all([fetch("/product-item"), fetch(`/cart-item`)]).then(
+      Promise.all([fetch("/product-items"), fetch(`/cart-items`)]).then(
         (result) => {
           if (result)
             dispatch({

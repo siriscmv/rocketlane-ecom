@@ -1,7 +1,6 @@
 import "./App.css";
 import Shop from "./components/Shop";
 import Cart from "./components/Cart";
-import Home from "./components/Home";
 import Error from "./components/Error";
 import Invoice from "./components/Invoice";
 import SyncWrapper from "./components/Sync";
@@ -16,8 +15,7 @@ function App() {
         <BrowserRouter>
           <Nav />
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/shop" element={<Shop />} />
+            <Route path="/" element={<Shop />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/invoice" element={<Invoice />} />
             <Route path="/error" element={<Error />} />
