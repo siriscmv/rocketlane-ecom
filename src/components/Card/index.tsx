@@ -14,8 +14,8 @@ export function promptAndRemoveItem(
   item: { id: number; title: string },
   removeItemFromCart: Actions["removeItemFromCart"]
 ) {
-  const shoudlRemove = window.confirm(`Remove ${item.title} from cart?`);
-  if (shoudlRemove) removeItemFromCart(item.id);
+  const shouldRemove = window.confirm(`Remove ${item.title} from cart?`);
+  if (shouldRemove) removeItemFromCart(item.id);
 }
 
 export default function Card(props: CardProps) {
