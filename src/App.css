@@ -1,8 +1,27 @@
+* {
+  transition: all 0.3s ease-in-out;
+}
+
+:root {
+  --success: #4caf50;
+  --danger: #f44336;
+  --muted: #868686;
+  --dark: #121212;
+}
+
 .main {
   background-color: white;
   color: black;
 
   font-size: 18px;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
 }
 
 @keyframes spin {
@@ -12,8 +31,4 @@
   100% {
     transform: rotate(360deg);
   }
-}
-
-* {
-  transition: all 0.3s ease-in-out;
 }
