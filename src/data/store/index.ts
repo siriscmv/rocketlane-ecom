@@ -1,5 +1,5 @@
 import { Dispatch, createContext } from "react";
-import { CartItem, Item, ShallowCartItem } from "../interfaces";
+import { CartItem, Item } from "../interfaces";
 
 export type BackendAction =
   (typeof BackendActions)[keyof typeof BackendActions];
@@ -19,7 +19,7 @@ export type Action =
   | { type: "ADD_TO_CART"; payload: Item }
   | { type: "CHANGE_QTY"; payload: { id: number; quantity: number } }
   | { type: "REMOVE_FROM_CART"; payload: number }
-  | { type: "PLACE_ORDER"; payload: ShallowCartItem[] }
+  | { type: "CLEAR_CART"; payload: null }
   | { type: "INITIAL_SYNC"; payload: { cart: CartItem[]; items: Item[] } }
   | { type: "FETCH_START"; payload: BackendAction }
   | { type: "FETCH_DONE"; payload: BackendAction }
@@ -48,21 +48,26 @@ export enum BackendActions {
   ChangeQtyCartItem = "changeQtyCartItem",
   RemoveItemFromCart = "removeItemFromCart",
   PlaceOrder = "placeOrder",
+  ClearCart = "clearCart",
   SyncWithBackend = "syncWithBackend",
 }
 
 export type Actions = {
-  [BackendActions.GetAllItems]: () => void;
-  [BackendActions.GetAllCartItems]: () => void;
-  [BackendActions.AddItemToCart]: (item: Item) => void;
-  [BackendActions.ChangeQtyCartItem]: (id: number, quantity: number) => void;
-  [BackendActions.RemoveItemFromCart]: (id: number) => void;
+  [BackendActions.GetAllItems]: () => Promise<void>;
+  [BackendActions.GetAllCartItems]: () => Promise<void>;
+  [BackendActions.AddItemToCart]: (item: Item) => Promise<void>;
+  [BackendActions.ChangeQtyCartItem]: (
+    id: number,
+    quantity: number
+  ) => Promise<void>;
+  [BackendActions.RemoveItemFromCart]: (id: number) => Promise<void>;
   [BackendActions.PlaceOrder]: (details: {
     name: string;
     phone: string;
     address: string;
-  }) => void;
-  [BackendActions.SyncWithBackend]: () => void;
+  }) => Promise<void>;
+  [BackendActions.ClearCart]: () => Promise<void>;
+  [BackendActions.SyncWithBackend]: () => Promise<void>;
 };
 
 export const Context = createContext<{

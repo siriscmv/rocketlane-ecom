@@ -1,4 +1,3 @@
-import confetti from "canvas-confetti";
 import { ReactNode, useReducer } from "react";
 import { Actions, BackendActions, Context, initialState } from ".";
 import fetch from "../../utils/fetch";
@@ -74,12 +73,16 @@ export default function Provider(props: { children: ReactNode }) {
         type: "FETCH_DONE",
         payload: BackendActions.PlaceOrder,
       });
-
-      //TODO: Clear cart here, redirect to home?
-      confetti({
-        particleCount: 150,
-        spread: 70,
-        origin: { y: 0.6 },
+    },
+    clearCart: async () => {
+      dispatch({
+        type: "FETCH_START",
+        payload: BackendActions.ClearCart,
+      });
+      await fetch(`/cart-items`, "DELETE");
+      dispatch({
+        type: "FETCH_DONE",
+        payload: BackendActions.ClearCart,
       });
     },
     syncWithBackend: async () => {

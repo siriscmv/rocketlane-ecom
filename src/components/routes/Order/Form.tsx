@@ -1,5 +1,6 @@
-import { useContext, useState } from "react";
-import { BackendActions, Context } from "../../../data/store";
+import confetti from "canvas-confetti";
+import { MouseEvent, useContext, useState } from "react";
+import { Actions, BackendActions, Context } from "../../../data/store";
 import Spinner from "../../../icons/Spinner";
 import styles from "./form.module.css";
 
@@ -11,9 +12,19 @@ interface Validation {
   address: ValidationState;
 }
 
+interface Details {
+  name: string;
+  phone: string;
+  address: string;
+}
+
 export default function Form() {
   const { actions, state } = useContext(Context)!;
-  const [details, setDetails] = useState({ name: "", phone: "", address: "" });
+  const [details, setDetails] = useState<Details>({
+    name: "",
+    phone: "",
+    address: "",
+  });
   const [validation, setValidation] = useState<Validation>({
     name: null,
     phone: null,
@@ -88,15 +99,30 @@ export default function Form() {
         className={`${styles.submitButton} ${
           hasPendingErrors && styles.disabled
         }`}
-        onClick={(e) => {
-          e.preventDefault();
-          actions.placeOrder(details);
-        }}
+        onClick={(e) => handleSubmit(e, actions, details)}
       >
         {isLoading ? <Spinner size={12} /> : "Place order"}
       </button>
     </form>
   );
+}
+
+async function handleSubmit(
+  event: MouseEvent,
+  actions: Actions,
+  details: Details
+) {
+  event.preventDefault();
+  await actions.placeOrder(details);
+
+  confetti({
+    particleCount: 150,
+    spread: 70,
+    origin: { y: 0.6 },
+  });
+
+  await actions.clearCart();
+  window.location.href = "/orders";
 }
 
 /*
