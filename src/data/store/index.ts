@@ -1,17 +1,6 @@
 import { Dispatch, createContext } from "react";
 import { Cart, Item } from "../interfaces";
 
-export type ActionType =
-  | "SET_ITEMS"
-  | "SET_CART"
-  | "ADD_TO_CART"
-  | "CHANGE_QTY"
-  | "REMOVE_FROM_CART"
-  | "INITIAL_SYNC"
-  | "FETCH_START"
-  | "FETCH_DONE"
-  | "FETCH_ERROR";
-
 export type BackendAction =
   (typeof BackendActions)[keyof typeof BackendActions];
 
@@ -22,15 +11,18 @@ export interface State {
   fetching: BackendAction[];
 }
 
-export type DispatchPayload = unknown;
-/*
-  Do not call dispatch directly. Use actions instead.
-*/
+// Do not call dispatch() directly. Use actions instead.
 
-export interface Action {
-  type: ActionType;
-  payload?: DispatchPayload;
-}
+export type Action =
+  | { type: "SET_ITEMS"; payload: Item[] }
+  | { type: "SET_CART"; payload: Cart[] }
+  | { type: "ADD_TO_CART"; payload: Item }
+  | { type: "CHANGE_QTY"; payload: { id: number; quantity: number } }
+  | { type: "REMOVE_FROM_CART"; payload: number }
+  | { type: "INITIAL_SYNC"; payload: { cart: Cart[]; items: Item[] } }
+  | { type: "FETCH_START"; payload: BackendAction }
+  | { type: "FETCH_DONE"; payload: BackendAction }
+  | { type: "FETCH_ERROR"; payload: BackendAction };
 
 export const initialState: State = {
   items: null,
