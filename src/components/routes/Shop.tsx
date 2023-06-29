@@ -6,7 +6,7 @@ import styles from "./page.module.css";
 export default function Shop() {
   const { state, actions } = useContext(Context)!;
   useEffect(() => {
-    actions.getAllItems();
+    if (state.items === null) actions.getAllItems();
   }, []);
 
   return (

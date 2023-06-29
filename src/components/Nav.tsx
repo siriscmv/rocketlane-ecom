@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Context } from "../data/store";
 import CartIcon from "../icons/Cart";
@@ -15,10 +15,7 @@ const ROUTES = {
 
 export default function Nav() {
   const location = useLocation();
-  const { state, actions } = useContext(Context)!;
-  useEffect(() => {
-    if (!state.initialSynced) actions.syncWithBackend();
-  }, []);
+  const { state } = useContext(Context)!;
 
   return (
     <nav className={styles.nav}>

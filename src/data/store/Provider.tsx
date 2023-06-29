@@ -1,7 +1,7 @@
 import { ReactNode, useReducer } from "react";
 import { Actions, BackendActions, Context, initialState } from ".";
 import fetch from "../../utils/fetch";
-import { CartItem, Item } from "../interfaces";
+import { CartItem, Item, Order } from "../interfaces";
 import reducer from "./reducer";
 
 export default function Provider(props: { children: ReactNode }) {
@@ -15,6 +15,10 @@ export default function Provider(props: { children: ReactNode }) {
     getAllCartItems: async () => {
       const payload: CartItem[] | null = await fetch("/cart-items");
       if (payload) dispatch({ type: "SET_CART", payload });
+    },
+    getAllOrders: async () => {
+      const payload: Order[] | null = await fetch("/orders");
+      if (payload) dispatch({ type: "SET_ORDERS", payload });
     },
     addItemToCart: async (item: Item) => {
       dispatch({ type: "FETCH_START", payload: BackendActions.AddItemToCart });

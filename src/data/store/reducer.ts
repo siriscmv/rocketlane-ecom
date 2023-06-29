@@ -15,6 +15,11 @@ export default function reducer(state: State, action: Action): State {
             ? action.payload
             : [...action.payload, ...state.cart],
       };
+    case "SET_ORDERS": //List of orders
+      return {
+        ...state,
+        orders: action.payload,
+      };
     case "ADD_TO_CART": //Id + qty, and full item in inner payload
       return {
         ...state,

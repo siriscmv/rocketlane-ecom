@@ -1,5 +1,5 @@
 import { Dispatch, createContext } from "react";
-import { CartItem, Item } from "../interfaces";
+import { CartItem, Item, Order } from "../interfaces";
 
 export type BackendAction =
   (typeof BackendActions)[keyof typeof BackendActions];
@@ -7,6 +7,7 @@ export type BackendAction =
 export interface State {
   items: Item[] | null;
   cart: CartItem[] | null;
+  orders: Order[] | null;
   fetching: BackendAction[];
 }
 
@@ -15,6 +16,7 @@ export interface State {
 export type Action =
   | { type: "SET_ITEMS"; payload: Item[] }
   | { type: "SET_CART"; payload: CartItem[] }
+  | { type: "SET_ORDERS"; payload: Order[] }
   | { type: "ADD_TO_CART"; payload: Item }
   | { type: "CHANGE_QTY"; payload: { id: number; quantity: number } }
   | { type: "REMOVE_FROM_CART"; payload: number }
@@ -26,6 +28,7 @@ export type Action =
 export const initialState: State = {
   items: null,
   cart: null,
+  orders: null,
   fetching: [],
 };
 
@@ -41,6 +44,7 @@ export const initialState: State = {
 export enum BackendActions {
   GetAllItems = "getAllItems",
   GetAllCartItems = "getAllCartItems",
+  GetAllOrders = "getAllOrders",
   AddItemToCart = "addItemToCart",
   ChangeQtyCartItem = "changeQtyCartItem",
   RemoveItemFromCart = "removeItemFromCart",
@@ -51,6 +55,7 @@ export enum BackendActions {
 export type Actions = {
   [BackendActions.GetAllItems]: () => Promise<void>;
   [BackendActions.GetAllCartItems]: () => Promise<void>;
+  [BackendActions.GetAllOrders]: () => Promise<void>;
   [BackendActions.AddItemToCart]: (item: Item) => Promise<void>;
   [BackendActions.ChangeQtyCartItem]: (
     id: number,

@@ -8,7 +8,7 @@ import styles from "./page.module.css";
 export default function Cart() {
   const { state, actions } = useContext(Context)!;
   useEffect(() => {
-    actions.getAllCartItems();
+    if (state.cart === null) actions.getAllCartItems();
   }, []);
 
   return (

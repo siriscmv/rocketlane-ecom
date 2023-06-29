@@ -14,3 +14,9 @@ export interface ShallowCartItem {
 export interface CartItem extends ShallowCartItem {
   productItem: Item;
 }
+
+export interface Order {
+  id: number;
+  items: CartItem[];
+  orderedAt: number;
+}
