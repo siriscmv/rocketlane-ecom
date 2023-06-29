@@ -7,7 +7,6 @@ export type BackendAction =
 export interface State {
   items: Item[] | null;
   cart: CartItem[] | null;
-  initialSynced: boolean;
   fetching: BackendAction[];
 }
 
@@ -20,7 +19,6 @@ export type Action =
   | { type: "CHANGE_QTY"; payload: { id: number; quantity: number } }
   | { type: "REMOVE_FROM_CART"; payload: number }
   | { type: "CLEAR_CART"; payload: null }
-  | { type: "INITIAL_SYNC"; payload: { cart: CartItem[]; items: Item[] } }
   | { type: "FETCH_START"; payload: BackendAction }
   | { type: "FETCH_DONE"; payload: BackendAction }
   | { type: "FETCH_ERROR"; payload: BackendAction };
@@ -28,7 +26,6 @@ export type Action =
 export const initialState: State = {
   items: null,
   cart: null,
-  initialSynced: false,
   fetching: [],
 };
 
@@ -49,7 +46,6 @@ export enum BackendActions {
   RemoveItemFromCart = "removeItemFromCart",
   PlaceOrder = "placeOrder",
   ClearCart = "clearCart",
-  SyncWithBackend = "syncWithBackend",
 }
 
 export type Actions = {
@@ -67,7 +63,6 @@ export type Actions = {
     address: string;
   }) => Promise<void>;
   [BackendActions.ClearCart]: () => Promise<void>;
-  [BackendActions.SyncWithBackend]: () => Promise<void>;
 };
 
 export const Context = createContext<{

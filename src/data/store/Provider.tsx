@@ -85,16 +85,6 @@ export default function Provider(props: { children: ReactNode }) {
         payload: BackendActions.ClearCart,
       });
     },
-    syncWithBackend: async () => {
-      const result = await Promise.all([
-        fetch("/product-items"),
-        fetch(`/cart-items`),
-      ]);
-      dispatch({
-        type: "INITIAL_SYNC",
-        payload: { items: result[0], cart: result[1] },
-      });
-    },
   };
 
   return (

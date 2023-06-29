@@ -50,13 +50,6 @@ export default function reducer(state: State, action: Action): State {
         ...state,
         cart: [],
       };
-    case "INITIAL_SYNC": // Both cart and product items
-      return {
-        ...state,
-        cart: action.payload.cart,
-        items: action.payload.items,
-        initialSynced: true,
-      };
     case "FETCH_START":
       return {
         ...state,
