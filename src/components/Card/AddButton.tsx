@@ -1,8 +1,8 @@
 import { useContext } from "react";
-import Spinner from "../../icons/Spinner";
-import { Context } from "../../data/store/";
-import styles from "./card.module.css";
 import { Item } from "../../data/interfaces";
+import { Context } from "../../data/store/";
+import Spinner from "../../icons/Spinner";
+import styles from "./card.module.css";
 
 export interface AddButtonProps {
   shouldBlockButton: boolean;

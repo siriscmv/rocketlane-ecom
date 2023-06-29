@@ -1,5 +1,5 @@
-import { State, Action, BackendAction } from ".";
-import { Item, Cart } from "../interfaces";
+import { Action, BackendAction, State } from ".";
+import { Cart, Item } from "../interfaces";
 
 export default function reducer(state: State, action: Action): State {
   switch (action.type) {

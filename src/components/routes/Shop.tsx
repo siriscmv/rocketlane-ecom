@@ -1,7 +1,7 @@
-import styles from "./page.module.css";
-import { Context } from "../../data/store";
 import { useContext } from "react";
+import { Context } from "../../data/store";
 import Card from "../Card";
+import styles from "./page.module.css";
 
 export default function Shop() {
   const { state } = useContext(Context)!;

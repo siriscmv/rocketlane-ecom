@@ -1,9 +1,9 @@
-import styles from "./page.module.css";
-import Card from "../Card";
-import { Context } from "../../data/store";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { Context } from "../../data/store";
 import RightChevrons from "../../icons/RightChevrons";
+import Card from "../Card";
+import styles from "./page.module.css";
 
 export default function Cart() {
   const { state } = useContext(Context)!;

@@ -1,6 +1,5 @@
 import { Dispatch, createContext } from "react";
 import { Cart, Item } from "../interfaces";
-import { IncomingPayload } from "./Provider";
 
 export type ActionType =
   | "SET_ITEMS"

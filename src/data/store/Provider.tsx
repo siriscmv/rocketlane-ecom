@@ -1,10 +1,8 @@
 import { ReactNode, useReducer } from "react";
-import { initialState, Actions, BackendActions, Context } from ".";
-import { Item, Cart } from "../interfaces";
+import { Actions, BackendActions, Context, initialState } from ".";
 import fetch from "../../utils/fetch";
+import { Cart, Item } from "../interfaces";
 import reducer from "./reducer";
-
-export type IncomingPayload = Item | { id: number; quantity: number } | number;
 
 export default function Provider(props: { children: ReactNode }) {
   const [state, dispatch] = useReducer(reducer, initialState);

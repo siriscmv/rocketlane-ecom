@@ -1,7 +1,7 @@
-import styles from "./page.module.css";
-import orderStyles from "./order.module.css";
-import { Context } from "../../data/store";
 import { useContext } from "react";
+import { Context } from "../../data/store";
+import orderStyles from "./order.module.css";
+import styles from "./page.module.css";
 
 export default function Order() {
   const { state } = useContext(Context)!;

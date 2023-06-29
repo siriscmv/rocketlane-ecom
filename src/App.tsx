@@ -1,16 +1,17 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
-import Shop from "./components/routes/Shop";
+import Nav from "./components/Nav";
 import Cart from "./components/routes/Cart";
 import Error from "./components/routes/Error";
 import Order from "./components/routes/Order";
+import Shop from "./components/routes/Shop";
 import Provider from "./data/store/Provider";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Nav from "./components/Nav";
 
 function App() {
   return (
     <Provider>
       <BrowserRouter>
+        ß
         <Nav />
         <Routes>
           <Route path="/" element={<Shop />} />

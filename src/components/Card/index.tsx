@@ -1,10 +1,10 @@
 import { useContext } from "react";
-import styles from "./card.module.css";
+import { Item } from "../../data/interfaces";
 import { Actions, BackendActions, Context } from "../../data/store";
 import Spinner from "../../icons/Spinner";
 import { AddButton } from "./AddButton";
 import { QuantityController } from "./QualityController";
-import { Item } from "../../data/interfaces";
+import styles from "./card.module.css";
 
 export interface CardProps extends Item {
   showRemoveButton?: boolean;
