@@ -69,7 +69,6 @@ export default function Provider(props: { children: ReactNode }) {
         payload: BackendActions.PlaceOrder,
       });
       await fetch(`/order`, "POST", {
-        //TODO: Use correct URL above
         details,
         items: state.cart!.map((c) => ({ id: c.id, quantity: c.quantity })),
       });
