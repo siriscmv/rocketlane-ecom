@@ -6,8 +6,11 @@ export interface Item {
   price: number;
 }
 
-export interface Cart {
+export interface ShallowCartItem {
   id: number;
   quantity: number;
+}
+
+export interface CartItem extends ShallowCartItem {
   productItem: Item;
 }

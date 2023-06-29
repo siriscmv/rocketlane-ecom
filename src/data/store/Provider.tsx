@@ -1,7 +1,8 @@
+import confetti from "canvas-confetti";
 import { ReactNode, useReducer } from "react";
 import { Actions, BackendActions, Context, initialState } from ".";
 import fetch from "../../utils/fetch";
-import { Cart, Item } from "../interfaces";
+import { CartItem, Item } from "../interfaces";
 import reducer from "./reducer";
 
 export default function Provider(props: { children: ReactNode }) {
@@ -13,7 +14,7 @@ export default function Provider(props: { children: ReactNode }) {
       if (payload) dispatch({ type: "SET_ITEMS", payload });
     },
     getAllCartItems: async () => {
-      const payload: Cart[] | null = await fetch("/cart-items");
+      const payload: CartItem[] | null = await fetch("/cart-items");
       if (payload) dispatch({ type: "SET_CART", payload });
     },
     addItemToCart: async (item: Item) => {
@@ -51,6 +52,34 @@ export default function Provider(props: { children: ReactNode }) {
       dispatch({
         type: "FETCH_DONE",
         payload: BackendActions.RemoveItemFromCart,
+      });
+    },
+    placeOrder: async (details: {
+      name: string;
+      phone: string;
+      address: string;
+    }) => {
+      if (!state.cart?.length) throw new Error("Cart is empty");
+
+      dispatch({
+        type: "FETCH_START",
+        payload: BackendActions.PlaceOrder,
+      });
+      await fetch(`/order`, "POST", {
+        //TODO: Use correct URL above
+        details,
+        items: state.cart!.map((c) => ({ id: c.id, quantity: c.quantity })),
+      });
+      dispatch({
+        type: "FETCH_DONE",
+        payload: BackendActions.PlaceOrder,
+      });
+
+      //TODO: Clear cart here, redirect to home?
+      confetti({
+        particleCount: 150,
+        spread: 70,
+        origin: { y: 0.6 },
       });
     },
     syncWithBackend: async () => {

@@ -26,6 +26,9 @@ dependencies:
   '@types/react-dom':
     specifier: ^18.2.6
     version: 18.2.6
+  canvas-confetti:
+    specifier: ^1.6.0
+    version: 1.6.0
   react:
     specifier: ^18.2.0
     version: 18.2.0
@@ -47,6 +50,11 @@ dependencies:
   web-vitals:
     specifier: ^2.1.4
     version: 2.1.4
+
+devDependencies:
+  '@types/canvas-confetti':
+    specifier: ^1.6.0
+    version: 1.6.0
 
 packages:
 
@@ -2466,6 +2474,10 @@ packages:
       '@types/node': 16.18.36
     dev: false
 
+  /@types/canvas-confetti@1.6.0:
+    resolution: {integrity: sha512-Yq6rIccwcco0TLD5SMUrIM7Fk7Fe/C0jmNRxJJCLtAF6gebDkPuUjK5EHedxecm69Pi/aA+It39Ux4OHmFhjRw==}
+    dev: true
+
   /@types/connect-history-api-fallback@1.5.0:
     resolution: {integrity: sha512-4x5FkPpLipqwthjPsF7ZRbOv3uoLUFkTA9G9v583qi4pACvq0uTELrB8OLUzPWUI4IJIyvM85vzkV1nyiI2Lig==}
     dependencies:
@@ -3621,6 +3633,10 @@ packages:
 
   /caniuse-lite@1.0.30001508:
     resolution: {integrity: sha512-sdQZOJdmt3GJs1UMNpCCCyeuS2IEGLXnHyAo9yIO5JJDjbjoVRij4M1qep6P6gFpptD1PqIYgzM+gwJbOi92mw==}
+    dev: false
+
+  /canvas-confetti@1.6.0:
+    resolution: {integrity: sha512-ej+w/m8Jzpv9Z7W7uJZer14Ke8P2ogsjg4ZMGIuq4iqUOqY2Jq8BNW42iGmNfRwREaaEfFIczLuZZiEVSYNHAA==}
     dev: false
 
   /case-sensitive-paths-webpack-plugin@2.4.0:

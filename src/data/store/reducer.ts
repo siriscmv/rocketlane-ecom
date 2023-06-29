@@ -45,6 +45,8 @@ export default function reducer(state: State, action: Action): State {
         ...state,
         cart: state.cart.filter((i) => i.id !== action.payload),
       };
+    case "PLACE_ORDER":
+      return state;
     case "INITIAL_SYNC": // Both cart and product items
       return {
         ...state,
