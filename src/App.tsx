@@ -11,7 +11,6 @@ function App() {
   return (
     <Provider>
       <BrowserRouter>
-        ß
         <Nav />
         <Routes>
           <Route path="/" element={<Shop />} />
