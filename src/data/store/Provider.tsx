@@ -1,6 +1,6 @@
 import { ReactNode, useReducer } from "react";
 import { Actions, BackendActions, Context, initialState } from ".";
-import fetch from "../../utils/fetch";
+import fetcher from "../../utils/fetcher";
 import { CartItem, Item, Order } from "../interfaces";
 import reducer from "./reducer";
 
@@ -9,20 +9,20 @@ export default function Provider(props: { children: ReactNode }) {
 
   const actions: Actions = {
     getAllItems: async () => {
-      const payload: Item[] | null = await fetch("/product-items");
+      const payload: Item[] | null = await fetcher("/product-items");
       if (payload) dispatch({ type: "SET_ITEMS", payload });
     },
     getAllCartItems: async () => {
-      const payload: CartItem[] | null = await fetch("/cart-items");
+      const payload: CartItem[] | null = await fetcher("/cart-items");
       if (payload) dispatch({ type: "SET_CART", payload });
     },
     getAllOrders: async () => {
-      const payload: Order[] | null = await fetch("/orders");
+      const payload: Order[] | null = await fetcher("/orders");
       if (payload) dispatch({ type: "SET_ORDERS", payload });
     },
     addItemToCart: async (item: Item) => {
       dispatch({ type: "FETCH_START", payload: BackendActions.AddItemToCart });
-      const done = await fetch(`/cart-item/${item.id}`, "POST");
+      const done = await fetcher(`/cart-item/${item.id}`, "POST");
 
       if (done) dispatch({ type: "ADD_TO_CART", payload: item });
       dispatch({ type: "FETCH_DONE", payload: BackendActions.AddItemToCart });
@@ -32,7 +32,7 @@ export default function Provider(props: { children: ReactNode }) {
         type: "FETCH_START",
         payload: BackendActions.ChangeQtyCartItem,
       });
-      const done = await fetch(`/cart-item/${id}`, "PATCH", {
+      const done = await fetcher(`/cart-item/${id}`, "PATCH", {
         quantity,
       });
       if (done)
@@ -50,7 +50,7 @@ export default function Provider(props: { children: ReactNode }) {
         type: "FETCH_START",
         payload: BackendActions.RemoveItemFromCart,
       });
-      const done = await fetch(`/cart-item/${id}`, "DELETE");
+      const done = await fetcher(`/cart-item/${id}`, "DELETE");
       if (done) dispatch({ type: "REMOVE_FROM_CART", payload: id });
       dispatch({
         type: "FETCH_DONE",
@@ -68,9 +68,12 @@ export default function Provider(props: { children: ReactNode }) {
         type: "FETCH_START",
         payload: BackendActions.PlaceOrder,
       });
-      await fetch(`/order`, "POST", {
-        details,
-        items: state.cart!.map((c) => ({ id: c.id, quantity: c.quantity })),
+      await fetcher(`/order`, "POST", {
+        ...details,
+        products: state.cart!.map((c) => ({
+          productId: c.id,
+          quantity: c.quantity,
+        })),
       });
       dispatch({
         type: "FETCH_DONE",
@@ -82,7 +85,7 @@ export default function Provider(props: { children: ReactNode }) {
         type: "FETCH_START",
         payload: BackendActions.ClearCart,
       });
-      await fetch(`/cart-items`, "DELETE");
+      await fetcher(`/cart-items`, "DELETE");
       dispatch({
         type: "FETCH_DONE",
         payload: BackendActions.ClearCart,

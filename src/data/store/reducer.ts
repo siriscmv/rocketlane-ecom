@@ -10,10 +10,7 @@ export default function reducer(state: State, action: Action): State {
     case "SET_CART": //List of cart items
       return {
         ...state,
-        cart:
-          state.cart === null
-            ? action.payload
-            : [...action.payload, ...state.cart],
+        cart: action.payload,
       };
     case "SET_ORDERS": //List of orders
       return {
