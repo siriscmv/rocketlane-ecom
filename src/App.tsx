@@ -4,8 +4,8 @@ import Nav from "./components/Nav";
 import Cart from "./components/routes/Cart";
 import Error from "./components/routes/Error";
 import Order from "./components/routes/Order";
-import Orders from "./components/routes/Orders";
 import Shop from "./components/routes/Shop";
+import Orders from "./components/routes/orders";
 import Provider from "./data/store/Provider";
 
 function App() {

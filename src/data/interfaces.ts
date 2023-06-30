@@ -20,3 +20,8 @@ export interface Order {
   productDescriptions: CartItem[];
   orderedAt: number;
 }
+export interface Details {
+  name: string;
+  phone: string;
+  address: string;
+}

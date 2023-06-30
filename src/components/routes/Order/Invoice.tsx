@@ -25,9 +25,13 @@ export default function Invoice() {
         </thead>
         <tbody>
           {state.cart === null ? (
-            <span>Loading ...</span>
+            <tr>
+              <td colSpan={5}>Loading ...</td>
+            </tr>
           ) : state.cart.length === 0 ? (
-            <h3>Cart is empty</h3>
+            <tr>
+              <td colSpan={5}>Cart is empty</td>
+            </tr>
           ) : (
             state.cart.map(({ productItem: item, quantity }) => (
               <tr key={item.id}>

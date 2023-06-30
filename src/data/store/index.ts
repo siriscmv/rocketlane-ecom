@@ -1,5 +1,5 @@
 import { Dispatch, createContext } from "react";
-import { CartItem, Item, Order, ShallowCartItem } from "../interfaces";
+import { CartItem, Details, Item, Order, ShallowCartItem } from "../interfaces";
 
 export type BackendAction =
   (typeof BackendActions)[keyof typeof BackendActions];
@@ -62,11 +62,7 @@ export type Actions = {
     quantity: number
   ) => Promise<void>;
   [BackendActions.RemoveItemFromCart]: (id: number) => Promise<void>;
-  [BackendActions.PlaceOrder]: (details: {
-    name: string;
-    phone: string;
-    address: string;
-  }) => Promise<void>;
+  [BackendActions.PlaceOrder]: (details: Details) => Promise<void>;
   [BackendActions.ClearCart]: () => Promise<void>;
 };
 
