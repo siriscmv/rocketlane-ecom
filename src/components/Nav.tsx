@@ -20,7 +20,9 @@ export default function Nav() {
   return (
     <nav className={styles.nav}>
       <Link to="/">
-        <Logo size={64} />
+        <div className={navStyles.container}>
+          <Logo size={40} />
+        </div>
       </Link>
       <h1>{ROUTES[location.pathname as keyof typeof ROUTES]}</h1>
       <Link to="/cart">
