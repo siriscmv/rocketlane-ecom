@@ -5,10 +5,11 @@ import orderStyles from "./order.module.css";
 export default function Invoice() {
   const { state } = useContext(Context)!;
 
-  const total =
+  const total = (
     state.cart
       ?.map((i) => i.quantity * i.productItem.price)
-      ?.reduce((acc, curr) => acc + curr, 0) ?? 0;
+      ?.reduce((acc, curr) => acc + curr, 0) ?? 0
+  ).toFixed(2);
 
   return (
     <>
