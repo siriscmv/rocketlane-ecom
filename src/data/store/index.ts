@@ -6,6 +6,7 @@ export type BackendAction =
 
 export interface State {
   items: Item[] | null;
+  searchedItems: Item[] | null;
   cart: CartItem[] | null;
   orders: Order[] | null;
   fetching: BackendAction[];
@@ -15,18 +16,21 @@ export interface State {
 
 export type Action =
   | { type: "SET_ITEMS"; payload: Item[] }
+  | { type: "SET_SEARCHED_ITEMS"; payload: Item[] }
   | { type: "SET_CART"; payload: CartItem[] }
   | { type: "SET_ORDERS"; payload: Order[] }
   | { type: "ADD_TO_CART"; payload: Item }
   | { type: "CHANGE_QTY"; payload: ShallowCartItem }
   | { type: "REMOVE_FROM_CART"; payload: number }
   | { type: "CLEAR_CART"; payload: null }
+  | { type: "CLEAR_SEARCHED_ITEMS"; payload: null }
   | { type: "FETCH_START"; payload: BackendAction }
   | { type: "FETCH_DONE"; payload: BackendAction }
   | { type: "FETCH_ERROR"; payload: BackendAction };
 
 export const initialState: State = {
   items: null,
+  searchedItems: null,
   cart: null,
   orders: null,
   fetching: [],
@@ -43,6 +47,7 @@ export const initialState: State = {
 
 export enum BackendActions {
   GetAllItems = "getAllItems",
+  SearchItems = "searchItems",
   GetAllCartItems = "getAllCartItems",
   GetAllOrders = "getAllOrders",
   AddItemToCart = "addItemToCart",
@@ -50,10 +55,12 @@ export enum BackendActions {
   RemoveItemFromCart = "removeItemFromCart",
   PlaceOrder = "placeOrder",
   ClearCart = "clearCart",
+  ClearSearchedItems = "clearSearchedItems",
 }
 
 export type Actions = {
   [BackendActions.GetAllItems]: () => Promise<void>;
+  [BackendActions.SearchItems]: (query: string) => Promise<void>;
   [BackendActions.GetAllCartItems]: () => Promise<void>;
   [BackendActions.GetAllOrders]: () => Promise<void>;
   [BackendActions.AddItemToCart]: (item: Item) => Promise<void>;
@@ -64,6 +71,7 @@ export type Actions = {
   [BackendActions.RemoveItemFromCart]: (id: number) => Promise<void>;
   [BackendActions.PlaceOrder]: (details: Details) => Promise<void>;
   [BackendActions.ClearCart]: () => Promise<void>;
+  [BackendActions.ClearSearchedItems]: () => Promise<void>;
 };
 
 export const Context = createContext<{

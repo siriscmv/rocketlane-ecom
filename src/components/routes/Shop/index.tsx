@@ -12,16 +12,18 @@ export default function Shop() {
     if (state.cart === null) actions.getAllCartItems();
   }, []);
 
+  const items = state.searchedItems?.length ? state.searchedItems : state.items;
+
   return (
     <div className={styles.container}>
       <Search />
       <div className={styles.main}>
-        {state.items === null ? (
+        {items === null ? (
           <span>Loading ...</span>
-        ) : state.items.length === 0 ? (
+        ) : items.length === 0 ? (
           <h3>Shop is empty</h3>
         ) : (
-          state.items.map((item) => (
+          items.map((item) => (
             <Card
               id={item.id}
               key={item.id}

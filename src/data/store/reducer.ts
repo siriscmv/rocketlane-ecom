@@ -7,6 +7,11 @@ export default function reducer(state: State, action: Action): State {
         ...state,
         items: action.payload,
       };
+    case "SET_SEARCHED_ITEMS": //Subset of product items
+      return {
+        ...state,
+        searchedItems: action.payload,
+      };
     case "SET_CART": //List of cart items
       return {
         ...state,
@@ -51,6 +56,11 @@ export default function reducer(state: State, action: Action): State {
       return {
         ...state,
         cart: [],
+      };
+    case "CLEAR_SEARCHED_ITEMS":
+      return {
+        ...state,
+        searchedItems: [],
       };
     case "FETCH_START":
       return {

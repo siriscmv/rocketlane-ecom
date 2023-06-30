@@ -12,6 +12,12 @@ export default function Provider(props: { children: ReactNode }) {
       const payload: Item[] | null = await fetcher("/product-items");
       if (payload) dispatch({ type: "SET_ITEMS", payload });
     },
+    searchItems: async (query: string) => {
+      const payload: Item[] | null = await fetcher(
+        `/product-items/search?title=${query}`
+      );
+      if (payload) dispatch({ type: "SET_SEARCHED_ITEMS", payload });
+    },
     getAllCartItems: async () => {
       const payload: CartItem[] | null = await fetcher("/cart-items");
       if (payload) dispatch({ type: "SET_CART", payload });
@@ -90,6 +96,9 @@ export default function Provider(props: { children: ReactNode }) {
         type: "FETCH_DONE",
         payload: BackendActions.ClearCart,
       });
+    },
+    clearSearchedItems: async () => {
+      dispatch({ type: "CLEAR_SEARCHED_ITEMS", payload: null });
     },
   };
 
