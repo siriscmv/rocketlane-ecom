@@ -71,7 +71,7 @@ export default function Provider(props: { children: ReactNode }) {
       await fetcher(`/order`, "POST", {
         ...details,
         products: state.cart!.map((c) => ({
-          productId: c.id,
+          id: c.id,
           quantity: c.quantity,
         })),
       });

@@ -7,6 +7,7 @@ export default function Shop() {
   const { state, actions } = useContext(Context)!;
   useEffect(() => {
     if (state.items === null) actions.getAllItems();
+    if (state.cart === null) actions.getAllCartItems();
   }, []);
 
   return (

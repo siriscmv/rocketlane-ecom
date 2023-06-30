@@ -29,7 +29,7 @@ export default function Invoice() {
             <h3>Cart is empty</h3>
           ) : (
             state.cart.map(({ productItem: item, quantity }) => (
-              <tr>
+              <tr key={item.id}>
                 <td>{item.id}</td>
                 <td>{item.title}</td>
                 <td>₹{item.price.toFixed(2)}</td>

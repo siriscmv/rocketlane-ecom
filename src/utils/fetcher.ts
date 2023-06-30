@@ -21,8 +21,10 @@ export default async function fetcher(
   );
 
   if (!result.ok) {
-    window.location.href = `/error?msg=${`Error, status code ${result.status}`}`;
+    //window.location.href = `/error?msg=${`Error, status code ${result.status}`}`;
     return null;
   }
+
+  if (result.status === 204) return true;
   return await result.json();
 }

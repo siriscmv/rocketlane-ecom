@@ -28,7 +28,7 @@ export default function Invoice() {
               <h3>No orders yet :/</h3>
             ) : (
               state.orders.map(({ id, orderedAt, items }) => (
-                <tr>
+                <tr key={id}>
                   <td>{id}</td>
                   <td>{orderedAt}</td>
                   <td>{items.map((i) => i.productItem.title).join(", ")}</td>
