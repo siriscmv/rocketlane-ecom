@@ -17,6 +17,6 @@ export interface CartItem extends ShallowCartItem {
 
 export interface Order {
   id: number;
-  items: CartItem[];
+  productDescriptions: CartItem[];
   orderedAt: number;
 }

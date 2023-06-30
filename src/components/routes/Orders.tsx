@@ -27,23 +27,25 @@ export default function Invoice() {
             ) : state.orders.length === 0 ? (
               <h3>No orders yet :/</h3>
             ) : (
-              state.orders.map(({ id, orderedAt, items }) => (
-                <tr key={id}>
-                  <td>{id}</td>
-                  <td>{orderedAt}</td>
-                  <td>{items.map((i) => i.productItem.title).join(", ")}</td>
-                  <td>
-                    ₹
-                    {items
-                      .reduce(
-                        (acc, item) =>
-                          acc + item.quantity * item.productItem.price,
-                        0
-                      )
-                      .toFixed(2)}
-                  </td>
-                </tr>
-              ))
+              state.orders.map(
+                ({ id, orderedAt, productDescriptions: items }) => (
+                  <tr key={id}>
+                    <td>{id}</td>
+                    <td>{new Date(orderedAt).toDateString()}</td>
+                    <td>{items.map((i) => i.productItem.title).join(", ")}</td>
+                    <td>
+                      ₹
+                      {items
+                        .reduce(
+                          (acc, item) =>
+                            acc + item.quantity * item.productItem.price,
+                          0
+                        )
+                        .toFixed(2)}
+                    </td>
+                  </tr>
+                )
+              )
             )}
           </tbody>
         </table>
