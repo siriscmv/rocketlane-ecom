@@ -1,5 +1,5 @@
 import { Dispatch, createContext } from "react";
-import { CartItem, Item, Order } from "../interfaces";
+import { CartItem, Item, Order, ShallowCartItem } from "../interfaces";
 
 export type BackendAction =
   (typeof BackendActions)[keyof typeof BackendActions];
@@ -18,7 +18,7 @@ export type Action =
   | { type: "SET_CART"; payload: CartItem[] }
   | { type: "SET_ORDERS"; payload: Order[] }
   | { type: "ADD_TO_CART"; payload: Item }
-  | { type: "CHANGE_QTY"; payload: { id: number; quantity: number } }
+  | { type: "CHANGE_QTY"; payload: ShallowCartItem }
   | { type: "REMOVE_FROM_CART"; payload: number }
   | { type: "CLEAR_CART"; payload: null }
   | { type: "FETCH_START"; payload: BackendAction }
