@@ -1,10 +1,12 @@
 import { useContext, useEffect } from "react";
-import { Context } from "../../data/store";
-import Card from "../Card";
-import styles from "./page.module.css";
+import { Context } from "../../../data/store";
+import Card from "../../Card";
+import styles from "../page.module.css";
+import Search from "./Search";
 
 export default function Shop() {
   const { state, actions } = useContext(Context)!;
+
   useEffect(() => {
     if (state.items === null) actions.getAllItems();
     if (state.cart === null) actions.getAllCartItems();
@@ -12,6 +14,7 @@ export default function Shop() {
 
   return (
     <div className={styles.container}>
+      <Search />
       <div className={styles.main}>
         {state.items === null ? (
           <span>Loading ...</span>
