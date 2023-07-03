@@ -1,6 +1,4 @@
-const BASE_API_URL = "https://3cb8-118-185-191-21.ngrok-free.app/api/v1";
-
-export default async function fetch(
+export default async function fetcher(
   path: string,
   method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE",
   body?: Record<string, unknown>
@@ -14,11 +12,19 @@ export default async function fetch(
     opts.headers["Content-Type"] = "application/json";
   }
 
-  const result = await window.fetch(`${BASE_API_URL}${path}`, opts);
+  if (!process.env.REACT_APP_BASE_API_URL)
+    throw new Error("REACT_APP_BASE_API_URL is not set");
+
+  const result = await window.fetch(
+    `${process.env.REACT_APP_BASE_API_URL}${path}`,
+    opts
+  );
 
   if (!result.ok) {
     window.location.href = `/error?msg=${`Error, status code ${result.status}`}`;
     return null;
   }
+
+  if (result.status === 204) return true;
   return await result.json();
 }

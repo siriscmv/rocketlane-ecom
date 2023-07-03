@@ -1,11 +1,12 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
-import Shop from "./components/Shop";
-import Cart from "./components/Cart";
-import Error from "./components/Error";
-import Invoice from "./components/Invoice";
-import { Provider } from "./components/Context";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Nav from "./components/Nav";
+import Cart from "./components/routes/Cart";
+import Error from "./components/routes/Error";
+import Order from "./components/routes/Order";
+import Shop from "./components/routes/Shop";
+import Orders from "./components/routes/orders";
+import Provider from "./data/store/Provider";
 
 function App() {
   return (
@@ -15,7 +16,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Shop />} />
           <Route path="/cart" element={<Cart />} />
-          <Route path="/invoice" element={<Invoice />} />
+          <Route path="/order" element={<Order />} />
+          <Route path="/orders" element={<Orders />} />
           <Route path="/error" element={<Error />} />
         </Routes>
       </BrowserRouter>

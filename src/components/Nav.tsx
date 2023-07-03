@@ -1,35 +1,37 @@
+import { useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
-import styles from "./Page.module.css";
-import { Cart, Logo } from "./icons";
-import { useContext, useEffect } from "react";
-import { Context } from "./Context";
-import navStyles from "./Nav.module.css";
+import { Context } from "../data/store";
+import CartIcon from "../icons/Cart";
+import Logo from "../icons/Logo";
+import navStyles from "./nav.module.css";
+import styles from "./routes/page.module.css";
 
 const ROUTES = {
   "/": "Shop Items",
   "/cart": "Your Cart",
-  "/invoice": "Your Invoice",
+  "/order": "Your Order",
   "/error": "Error",
 };
 
 export default function Nav() {
   const location = useLocation();
-  const { state, actions } = useContext(Context)!;
-  useEffect(() => {
-    if (!state.initialSynced) actions.syncWithBackend();
-  }, []);
+  const { state } = useContext(Context)!;
 
   return (
     <nav className={styles.nav}>
       <Link to="/">
-        <Logo size={64} />
+        <div className={navStyles.container}>
+          <Logo size={40} />
+        </div>
       </Link>
       <h1>{ROUTES[location.pathname as keyof typeof ROUTES]}</h1>
       <Link to="/cart">
         <div className={navStyles.container}>
           <div className={navStyles.cart}>
-            <Cart size={32}></Cart>
-            <div className={navStyles.count}>{state.cart.length}</div>
+            <CartIcon size={32}></CartIcon>
+            {state.cart && (
+              <div className={navStyles.count}>{state.cart.length}</div>
+            )}
           </div>
         </div>
       </Link>
