@@ -60,7 +60,7 @@ export default function reducer(state: State, action: Action): State {
     case "CLEAR_SEARCHED_ITEMS":
       return {
         ...state,
-        searchedItems: [],
+        searchedItems: null,
       };
     case "FETCH_START":
       return {
