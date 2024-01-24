@@ -20,6 +20,8 @@ export default async function fetcher(
     opts
   );
 
+  if (result) {}
+
   if (!result.ok) {
     window.location.href = `/error?msg=${`Error, status code ${result.status}`}`;
     return null;
